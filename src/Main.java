@@ -4,6 +4,7 @@ public class Main {
 		System.out.println("Hello World!~");
 
         // Try adding and pushing smth here guys
+		System.out.println("Hello");
 
 	}
 }
