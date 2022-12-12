@@ -1,3 +1,5 @@
+package main;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -5,10 +7,5 @@ public class Main {
 
         // Try adding and pushing smth here guys
 		System.out.println("Hello");
-		// Hii
-        //dum dum dumr
-	
-        // testing push and pull command
-
 	}
 }
