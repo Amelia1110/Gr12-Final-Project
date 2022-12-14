@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .metadata
 bin/
 tmp/
@@ -54,3 +55,6 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+=======
+/bin/
+>>>>>>> cb0f4180347ebdf15b201bdeeb8d63163be0dece
