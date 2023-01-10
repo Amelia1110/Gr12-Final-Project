@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 public class EscapeRoomieGame {
 	// Panels for all maps
 	DrawingPanel introPanel;
+	
 	// Declare all maps
 	Map testIntroMap;
 	
@@ -48,8 +49,6 @@ public class EscapeRoomieGame {
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-
-		
 	}
 	
 	// Declare all textures
@@ -66,7 +65,7 @@ public class EscapeRoomieGame {
 	// Generate all maps
 	void createMapObjects() {
 		// Initialize first map
-											//6				//12
+										  //6				//12
 		int[][] newMap = {	{0, 0, 0, 0, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 							{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 							{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -91,8 +90,6 @@ public class EscapeRoomieGame {
 		// Game dimensions
 		static final int PANW = 1152; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 768;
-		static final int MAP_WIDTH = PANW/64; // TODO change this so not magic number
-		static final int MAP_HEIGHT = PANH/64;
 		
 		Graphics2D g2;
 		
