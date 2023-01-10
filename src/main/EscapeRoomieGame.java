@@ -33,5 +33,6 @@ public class EscapeRoomieGame {
 		
 		// Create new map object
 		Map testMap = new Map(newMap);
+		// Hello
 	}
 }
