@@ -14,13 +14,13 @@ public class Texture extends Rectangle{
 		// Set texture image
 		try {
 			img = ImageIO.read(new File(fileName));
-			this.width = img.getWidth();
-			this.height = img.getHeight();
+			width = img.getWidth();
+			height = img.getHeight();
 		} catch (IOException e) {
 			System.out.println("Warning: image failed to load");
 		}		
 	}
 	
-	// Create all textures
+	// Create all textures (All textures should be 64 x 64)
 	static Texture wood = new Texture("wood.png");
 }

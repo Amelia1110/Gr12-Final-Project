@@ -1,14 +1,14 @@
 package main;
 
 public class Map {
-	final private int[][] map;
+	final int[][] mapLayout;
 	
 	Map(int[][] mapLayout) {
-		map = mapLayout;
+		this.mapLayout = mapLayout;
 	}
 	
 	// Update the map at specified coordinates
 	void updateMap(int x, int y, int value) {
-		map[y][x] = value;
+		mapLayout[y][x] = value;
 	}
 }
