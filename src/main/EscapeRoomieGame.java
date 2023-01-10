@@ -48,37 +48,44 @@ public class EscapeRoomieGame {
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
+
+		
 	}
 	
 	// Declare all textures
 	void addTextures() { 
 		textures.add(null);
-		textures.add(Texture.wood);
+		textures.add(Texture.wall);
 	}
 	
 	// Generate all maps
 	void createMapObjects() {
 		// Initialize first map
-		int[][] newMap = {	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-							{0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+											//6				//12
+		int[][] newMap = {	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							//5
+							{0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							//10
+							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		};
 		
-		// Create new map object
 		testIntroMap = new Map(newMap);
 	}
-	
-	
+
 	// DrawingPanel class
 	private class DrawingPanel extends JPanel {
 		// Game dimensions
-		static final int PANW = 768; //Each image is 64 x 64 pixels, lets make these multiples of 64
-		static final int PANH = 512;
+		static final int PANW = 1152; //Each image is 64 x 64 pixels, lets make these multiples of 64
+		static final int PANH = 768;
 		static final int MAP_WIDTH = PANW/64; // TODO change this so not magic number
 		static final int MAP_HEIGHT = PANH/64;
 		
@@ -130,7 +137,7 @@ public class EscapeRoomieGame {
 					System.out.println(targetMap.mapLayout[y][x]);
 					
 					if (targetMap.mapLayout[y][x] != 0) {
-						g2.drawImage(textures.get(x).img, xPos, yPos, null);
+						g2.drawImage(textures.get(targetMap.mapLayout[y][x]).img, xPos, yPos, null);
 					}
 				}
 			}

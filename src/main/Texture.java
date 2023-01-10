@@ -22,5 +22,5 @@ public class Texture extends Rectangle{
 	}
 	
 	// Create all textures (All textures should be 64 x 64)
-	static Texture wood = new Texture("wood.png");
+	static Texture wall = new Texture("wall.png");
 }
