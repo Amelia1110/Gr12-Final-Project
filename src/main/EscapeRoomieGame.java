@@ -91,8 +91,6 @@ public class EscapeRoomieGame {
 		// Game dimensions
 		static final int PANW = 1152; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 768;
-		static final int MAP_WIDTH = PANW/64; // TODO change this so not magic number
-		static final int MAP_HEIGHT = PANH/64;
 		
 		Graphics2D g2;
 		
