@@ -5,13 +5,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
-public class EscapeRoomieGame {
+public class EscapeRoomieGame implements ActionListener {
 	// Panels for all maps
 	DrawingPanel introPanel;
 	// Declare all maps
@@ -19,6 +23,8 @@ public class EscapeRoomieGame {
 	
 	// Store all textures
 	ArrayList<Texture> textures = new ArrayList<Texture>();
+	
+	Player player = new Player(400, 200);
 	
 	public static void main(String[] args) {
 		// Start program with swing graphics
@@ -28,6 +34,8 @@ public class EscapeRoomieGame {
 			}
 		});
 	}
+	Timer mainTimer = new Timer(10, this);
+	BetterKeyListener bKeyL = new BetterKeyListener();
 	
 	// Constructor, create game
 	EscapeRoomieGame() {
@@ -35,6 +43,7 @@ public class EscapeRoomieGame {
 		addTextures();
 		introPanel = new DrawingPanel(testIntroMap);
 		setupJFrame();
+		mainTimer.start();
 	}
 	
 	// Setup window
@@ -49,7 +58,6 @@ public class EscapeRoomieGame {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-		
 	}
 	
 	// Declare all textures
@@ -88,6 +96,7 @@ public class EscapeRoomieGame {
 
 	// DrawingPanel class
 	private class DrawingPanel extends JPanel {
+		
 		// Game dimensions
 		static final int PANW = 1152; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 768;
@@ -97,8 +106,9 @@ public class EscapeRoomieGame {
 		// Target map
 		final Map targetMap;
 		
+		//inaccessable
 		private DrawingPanel() {
-			// cannot create drawing panel with no parameters
+			// cannot create drawing panel without a map
 			targetMap = null;
 		}
 		
@@ -108,42 +118,64 @@ public class EscapeRoomieGame {
 			// Setup JPanel
 			this.setPreferredSize(new Dimension(PANW, PANH));
 			this.setBackground(Color.BLACK);
+			this.addKeyListener(bKeyL);
+			this.setFocusable(true);
 		}
 		
 		// Draw components
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g); // draw background
-			
 			// Setup graphics component
 			g2 = (Graphics2D) g;
-
 			// antialiasing:
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
 			// draw map
 			loadMap();
+			loadPlayer();
 		}
-		
+			
+
 		// Load the map
 		void loadMap() {
 			int xPos;
 			int yPos;
-			
+
 			// Iterate through and draw each element in the map
 			for (int y = 0; y < targetMap.mapLayout.length; y++) {
 				for (int x = 0; x < targetMap.mapLayout[0].length; x++) {
 					xPos = PANW/targetMap.mapLayout[0].length * x;
 					yPos = PANH/targetMap.mapLayout.length * y;
-					
-					System.out.println(xPos + " " + yPos);
-					System.out.println(targetMap.mapLayout[y][x]);
-					
+
 					if (targetMap.mapLayout[y][x] != 0) {
 						g2.drawImage(textures.get(targetMap.mapLayout[y][x]).img, xPos, yPos, null);
 					}
 				}
 			}
 		}
+
+		void loadPlayer() {
+			g2.setColor(Color.RED);	//color of hitbox
+			g2.drawImage(player.image, player.x, player.y, null);
+			
+			if (player.showHitBox) {
+				g2.drawRect(player.x, player.y, player.width, player.height);
+				if (player.health > 50) g2.setColor(Color.GREEN);
+				g2.fillRect(player.x, player.y, player.health*player.width/100, 10);
+			}
+		}
+	}
+
+	/*** for mainTimer ***/
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//move ship (assuming that a key has been pressed)
+		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A');
+		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W');
+		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D');
+		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
+		
+		introPanel.repaint();
 	}
 }
