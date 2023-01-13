@@ -23,5 +23,4 @@ public class Interactables extends Rectangle{
 	
 	// Create all textures (All textures should be 64 x 64)
 	//static Interactables introNote = new Interactables("intronote.png");
-	
 }
