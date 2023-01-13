@@ -18,7 +18,7 @@ class Player extends Rectangle{
 	int money = 0; 		//player will use the money to purchase in-game items 
 	private int vx = 2;	//xspeed at which player moves
 	private int vy = 2;	//yspeed at which player moves
-	boolean showHitBox = true; //for testing because player is a rectangle 
+	boolean showHitBox = false; //for testing because player is a rectangle 
 
 	BufferedImage image; //for drawing the image on graphics 
 

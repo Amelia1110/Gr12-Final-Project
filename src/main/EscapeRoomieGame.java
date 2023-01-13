@@ -164,11 +164,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		void loadPlayer() {
 			g2.setColor(Color.RED);	//color of hitbox
 			g2.drawImage(player.image, player.x, player.y, null);
-
+			if (player.health > 50) g2.setColor(Color.GREEN);
+			g2.fillRect(player.x, player.y, player.health*player.width/100, 5);
 			if (player.showHitBox) {
 				g2.drawRect(player.x, player.y, player.width, player.height);
-				if (player.health > 50) g2.setColor(Color.GREEN);
-				g2.fillRect(player.x, player.y, player.health*player.width/100, 10);
 			}
 		}
 
