@@ -1,15 +1,26 @@
 package main;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class Interactables {
+import javax.imageio.ImageIO;
+
+public class Interactables extends Rectangle{
 	BufferedImage img;
 	
-	Interactables(BufferedImage img) {
-		this.img = img;
+	Interactables(String fileName) {
+		// Set int image
+		try {
+			img = ImageIO.read(new File(fileName));
+			width = img.getWidth();
+			height = img.getHeight();
+		} catch (IOException e) {
+			System.out.println("Warning: image failed to load");
+		}		
 	}
 	
-	// Method for collision checking
-	
-	// Method to make object disapear/delete interactable
+	// Create all textures (All textures should be 64 x 64)
+	//static Interactables introNote = new Interactables("intronote.png");
 }
