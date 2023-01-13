@@ -24,16 +24,16 @@ class Player extends Rectangle{
 
 	int stretch = 20;
 
-	//movement 
 	Player(int x, int y) {
-		this.x = x;
-		this.y = y;
-		//these are customizable 
 		width = 100;
 		height = 50;
-		
+		this.x = x-(width/2);
+		this.y = y-(height/2);
+		//these are customizable 
+
 		try {
 			image = ImageIO.read(new File("player.png"));
+			//these for hitbox
 			width = image.getWidth();
 			height = image.getHeight();
 		} catch (IOException e) {
@@ -45,23 +45,24 @@ class Player extends Rectangle{
 		switch (key) { 
 		case 'W':
 		case 38:
-			y -= vy;
+			if (y + height > 64) y -= vy;
 			break;
 
 		case 'A':
 		case 37:
-			x -= vx;
+			if (x > 128) x -= vx;
 			break;
 
 		case 'S':
 		case 40:
-			y += vy;
+			if (y + height < 512-64) y += vy;
 			break;
 
 		case 'D':
 		case 39:
-			x += vx;
+			if (x + width < 512-128) x += vx;
 			break;
+
 		}
 	}
 
