@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 public class Interactables extends Rectangle{
 	BufferedImage img;
 	
+	//create the image
 	Interactables(String fileName) {
 		// Set int image
 		try {
@@ -22,6 +23,6 @@ public class Interactables extends Rectangle{
 	}
 	
 	// Create all textures (All textures should be 64 x 64)
-	//static Interactables introNote = new Interactables("intronote.png");
+	static Interactables introNote = new Interactables("intronote.png");
 	
 }

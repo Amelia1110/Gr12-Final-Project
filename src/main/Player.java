@@ -45,22 +45,25 @@ class Player extends Rectangle{
 		switch (key) { 
 		case 'W':
 		case 38:
-			if (y + height > 64) y -= vy;
+			if (this.intersects(Texture.topWall)){
+				x = y = 200;
+			}
+			y -= vy;
 			break;
 
 		case 'A':
 		case 37:
-			if (x > 128) x -= vx;
+			x -= vx;
 			break;
 
 		case 'S':
 		case 40:
-			if (y + height < 512-64) y += vy;
+			y += vy;
 			break;
 
 		case 'D':
 		case 39:
-			if (x + width < 512-128) x += vx;
+			x += vx;
 			break;
 
 		}

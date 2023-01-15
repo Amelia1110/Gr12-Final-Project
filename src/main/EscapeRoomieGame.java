@@ -18,17 +18,18 @@ import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Panels for all maps
-	DrawingPanel introPanel;
+	DrawingPanel introPanel, Room1Panel;
 	
 	// Declare all maps
-	Map testIntroMap;
+	Map testIntroRoom, testRoom1;
 
 	// Store all textures
 	ArrayList<Texture> textures = new ArrayList<Texture>();
+	ArrayList<Interactables> interactables = new ArrayList<Interactables>();
 
 	Interactables introNote = new Interactables("player.png");
 
-	Player player = new Player(280, 250);
+	Player player = new Player(585, 204);
 
 	public static void main(String[] args) {
 		// Start program with swing graphics
@@ -46,7 +47,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	EscapeRoomieGame() {
 		createMapObjects();
 		addTextures();
-		introPanel = new DrawingPanel(testIntroMap);
+		//Room1Panel = new DrawingPanel(testRoom1);
+		introPanel = new DrawingPanel(testIntroRoom);
 		setupJFrame();
 		mainTimer.start();
 	}
@@ -58,6 +60,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Render window
+		window.add(Room1Panel); 
 		window.add(introPanel);
 		window.pack();
 		window.setLocationRelativeTo(null);
@@ -86,12 +89,53 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		textures.add(Texture.doorDown);		//16
 		textures.add(Texture.doorLeft);		//17
 	}
+	
+	void addInteractables() {
+		//I guess will start with 101 and up?
+		interactables.add(Interactables.introNote); //101
+		
+	}
 
 	// Generate all maps
 	void createMapObjects() {
-		// Initialize first map
+		// Initialize intro map
+										  //6				//12
+		int[][] introMap = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 6, 4, 4, 4, 4, 7, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							//5
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
+							//10
+							{0, 0, 0, 0, 0, 0, 8, 5, 5, 5, 5, 9, 0, 0, 0, 0, 0, 0},
+							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		};
+		
 												//6				//12
-		int[][] newMap = {		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		int[][] introLayer2Map = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								//5
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								//10
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		};
+		
+		// Initialize Room1 map
+												//6				//12
+		int[][] Room1Map = {	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 6, 4, 4, 4, 4, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -107,7 +151,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		};
 												//6				//12
-		int[][] newLayer2Map = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		int[][] Room1Layer2Map = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 0, 0, 14,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -122,7 +166,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		};
-		testIntroMap = new Map(newMap, newLayer2Map);
+		
+		testIntroRoom = new Map (introMap, introLayer2Map);
+		testRoom1 = new Map(Room1Map, Room1Layer2Map);
 	}
 
 	// DrawingPanel class
@@ -167,7 +213,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			//draw player
 			loadPlayer();
 			//draw interactables
-			loadInteractables();
+			//loadInteractables();
 			//check collisions
 			checkCollision();
 		}
@@ -230,9 +276,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			}
 		}
 
-		void loadInteractables() {
-			g2.drawImage(introNote.img, 230, 420, null);
-		}
+//		void loadInteractables() {
+//			g2.drawImage(introNote.img, 230, 420, null);
+//		}
 
 		void loadPlayer() {
 			g2.setColor(Color.RED);	//color of hitbox
@@ -258,7 +304,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D');
 		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
 
+		//Room1Panel.repaint();
 		introPanel.repaint();
+		
 	}
 
 	@Override
