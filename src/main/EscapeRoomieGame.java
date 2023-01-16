@@ -18,19 +18,19 @@ import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Panels for all maps
-	DrawingPanel introPanel, Room1Panel;
+	static DrawingPanel introPanel, room1Panel;
 	
-	// Declare all maps
-	Map testIntroRoom, testRoom1;
+	// Keeps track of which panel is currently being displayed
+	static DrawingPanel activePanel;
 
 	// Store all textures
-	ArrayList<Texture> textures = new ArrayList<Texture>();
-	ArrayList<Interactables> interactables = new ArrayList<Interactables>();
+	static ArrayList<Texture> textures = new ArrayList<Texture>();
+	static ArrayList<Interactables> interactables = new ArrayList<Interactables>();
 
-	Interactables introNote = new Interactables("player.png");
+	// Create player object
+	static Player player = new Player(6*64, 5*64);
 
-	Player player = new Player(585, 204);
-
+	// Run program
 	public static void main(String[] args) {
 		// Start program with swing graphics
 		SwingUtilities.invokeLater(new Runnable() {
@@ -45,10 +45,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 	// Constructor, create game
 	EscapeRoomieGame() {
-		createMapObjects();
 		addTextures();
-		Room1Panel = new DrawingPanel(testRoom1);
-		//introPanel = new DrawingPanel(testIntroRoom);
+		addInteractables();
+		introPanel = new DrawingPanel(Map.introRoom);
+		room1Panel = new DrawingPanel(Map.room1);
 		setupJFrame();
 		mainTimer.start();
 	}
@@ -60,17 +60,19 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Render window
-		window.add(Room1Panel); 
 		window.add(introPanel);
+		activePanel = introPanel;
+		window.add(room1Panel);
+		activePanel = room1Panel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
 		window.setVisible(true);
 	}
-
+	
 	// Declare all textures
 	void addTextures() { 
-		textures.add(null);
+		textures.add(null);	//0
 		textures.add(Texture.floor);		//1
 		textures.add(Texture.leftWall);		//2
 		textures.add(Texture.rightWall);	//3
@@ -84,91 +86,18 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		textures.add(Texture.topRightInCornerWall); //11
 		textures.add(Texture.botLeftInCornerWall);  //12
 		textures.add(Texture.botRightInCornerWall); //13
-		textures.add(Texture.doorUp);		//14
-		textures.add(Texture.doorRight); 	//15
-		textures.add(Texture.doorDown);		//16
-		textures.add(Texture.doorLeft);		//17
 	}
 	
+	// Declare all interactables
 	void addInteractables() {
-		//I guess will start with 101 and up?
-		interactables.add(Interactables.introNote); //101
+		interactables.add(null);	//0
+		interactables.add(Interactables.doorUp);		//1
+		interactables.add(Interactables.doorRight); 	//2
+		interactables.add(Interactables.doorDown);		//3
+		interactables.add(Interactables.doorLeft);		//4
+		interactables.add(Interactables.introNote); 	//5
 		
-	}
-
-	// Generate all maps
-	void createMapObjects() {
-		// Initialize intro map
-										  //6				//12
-		int[][] introMap = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 6, 4, 4, 4, 4, 7, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							//5
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0},
-							//10
-							{0, 0, 0, 0, 0, 0, 8, 5, 5, 5, 5, 9, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		};
 		
-												//6				//12
-		int[][] introLayer2Map = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								//5
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								//10
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		};
-		
-		// Initialize Room1 map
-												//6				//12
-		int[][] Room1Map = {	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 6, 4, 4, 4, 4, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 2, 1, 1, 1, 1, 3, 0, 0, 6, 4, 4, 4, 4, 7, 0},
-								//5
-								{0, 0, 0, 2, 1, 1, 1, 1, 12,4, 4, 13,1, 1, 1, 1, 3, 0},
-								{0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
-								{0, 0, 0, 2, 1, 1, 1, 1, 10,5, 5, 11,1, 1, 1, 1, 3, 0},
-								{0, 0, 0, 8, 5, 5, 5, 5, 9, 0, 0, 2, 1, 1, 1, 1, 3, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 5, 5, 5, 5, 9, 0},
-								//10
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		};
-												//6				//12
-		int[][] Room1Layer2Map = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 14,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								//5
-								{0, 0, 0, 0, 17,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15,0, 0},
-								{0, 0, 0, 0, 0, 16,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								//10
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		};
-		
-		testIntroRoom = new Map (introMap, introLayer2Map);
-		testRoom1 = new Map(Room1Map, Room1Layer2Map);
 	}
 
 	// DrawingPanel class
@@ -210,12 +139,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 			//draw map
 			loadMap();
+			//draw interactables
+			loadInteractables();
+			
 			//draw player
 			loadPlayer();
-			//draw interactables
-			//loadInteractables();
-			//check collisions
-			checkCollision();
 		}
 
 
@@ -239,74 +167,75 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 						
 						// Draw a rotated image
 						if(texture.rotation != 0.0) {
-							g2.rotate(texture.rotation, xPos + 32, yPos + texture.height/2);
+							g2.rotate(texture.rotation, xPos + texture.height/2, yPos + texture.height/2);
 							g2.drawImage(texture.img, xPos, yPos, null);
 							g2.rotate(-texture.rotation, xPos + texture.width/2, yPos + texture.height/2);
 							
 						}
 						// Draw a normal image
-						else g2.drawImage(textures.get(targetMap.mapGround[y][x]).img, xPos, yPos, null);
+						else g2.drawImage(texture.img, xPos, yPos, null);
 					}
 				}
 			}
+		}
+			
+		void loadInteractables() {
+			int xPos;
+			int yPos;
+			
+			Interactables interactable;
 			
 			// Iterate through and draw each element in the second layer of the map
-			for (int y = 0; y < targetMap.mapLayer2.length; y++) {
-				for (int x = 0; x < targetMap.mapLayer2[0].length; x++) {
+			for (int y = 0; y < targetMap.mapTopLayer.length; y++) {
+				for (int x = 0; x < targetMap.mapTopLayer[0].length; x++) {
 					// Declare the x and y coordinate of where the image will be drawn
-					xPos = PANW/targetMap.mapLayer2[0].length * x;
-					yPos = PANH/targetMap.mapLayer2.length * y;
-					
-					if (targetMap.mapLayer2[y][x] != 0) {
-						// Determine which texture is being referenced
-						texture = textures.get(targetMap.mapLayer2[y][x]);
-						
+					xPos = PANW / targetMap.mapTopLayer[0].length * x;
+					yPos = PANH / targetMap.mapTopLayer.length * y;
+
+					if (targetMap.mapTopLayer[y][x] != 0) {
+						// Determine which interactable is being referenced
+						interactable = interactables.get(targetMap.mapTopLayer[y][x]);
+
 						// Draw a rotated image
-						if(texture.rotation != 0.0) {
-							g2.rotate(texture.rotation, xPos + texture.width/2, yPos + texture.height/2);
-							g2.drawImage(texture.img, xPos, yPos, null);
-							g2.rotate(-texture.rotation, xPos + texture.width/2, yPos + texture.height/2);
-							
+						if (interactable.rotation != 0.0) {
+							g2.rotate(interactable.rotation, xPos + interactable.width / 2, yPos + interactable.height / 2);
+							g2.drawImage(interactable.img, xPos, yPos, null);
+							g2.rotate(-interactable.rotation, xPos + interactable.width / 2, yPos + interactable.height / 2);
+
 						}
-						
+
 						// Draw a normal image
-						else g2.drawImage(textures.get(targetMap.mapLayer2[y][x]).img, xPos, yPos, null);
+						else g2.drawImage(interactable.img, xPos, yPos, null);
 					}
 				}
 			}
 		}
 
-//		void loadInteractables() {
-//			g2.drawImage(introNote.img, 230, 420, null);
-//		}
-
+		// Draw player
 		void loadPlayer() {
 			g2.setColor(Color.RED);	//color of hitbox
 			g2.drawImage(player.image, player.x, player.y, null);
 			if (player.health > 50) g2.setColor(Color.GREEN);
-			g2.fillRect(player.x, player.y, player.health*player.width/100, 5);
+			g2.fillRect(player.x, player.y - 5, player.health*player.width/100, 3);
 			if (player.showHitBox) {
 				g2.drawRect(player.x, player.y, player.width, player.height);
 			}
 		}
-
-		void checkCollision() {
-
-		}
 	}
 
+	
 	/*** for mainTimer ***/
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		//move player (assuming that a key has been pressed)
-		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A');
-		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W');
-		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D');
-		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
-
-		//Room1Panel.repaint();
-		introPanel.repaint();
+	public void actionPerformed(ActionEvent e) {	
+		int[][] map = activePanel.targetMap.mapGround;
 		
+		//move player (assuming that a key has been pressed)
+		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', map);
+		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', map);
+		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', map);
+		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', map);
+		
+		activePanel.repaint();
 	}
 
 	@Override
