@@ -1,10 +1,6 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -86,11 +82,8 @@ class Player extends Rectangle{
 		xPos = (x + width/2)/Map.TILE_DIMENSION;
 		yPos = (y + height)/Map.TILE_DIMENSION;
 		
-		// If the player is not standing on a floor tile, return true
-		if (map[yPos][xPos] != 1) {
-			System.out.println(map[yPos][xPos]);
-			return true;
-		}
+		// If the player is not standing on a floor tile, return hitWall as true
+		if (map[yPos][xPos] != 1) return true;
 		return false;
 	}
 
