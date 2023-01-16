@@ -19,6 +19,9 @@ class Player extends Rectangle{
 	private int vx = 2;	//xspeed at which player moves
 	private int vy = 2;	//yspeed at which player moves
 	boolean showHitBox = false; //for testing because player is a rectangle 
+	// Player's position on the map grid (not pixels), index on map
+	int xPos;
+	int yPos;
 
 	BufferedImage image; //for drawing the image on graphics 
 
@@ -27,6 +30,8 @@ class Player extends Rectangle{
 	Player(int x, int y) {
 		width = 100;
 		height = 50;
+		xPos = (x + width/2)/Map.TILE_DIMENSION;
+		yPos = (y + height)/Map.TILE_DIMENSION;
 		this.x = x-(width/2);
 		this.y = y-(height/2);
 		//these are customizable 
@@ -41,30 +46,56 @@ class Player extends Rectangle{
 		}
 	}
 
-	void move (int key) {
+	// Player moves in a specified direction
+	void move (int key, int[][] map) {
 		switch (key) { 
 		case 'W':
-		case 38:
-			if (this.intersects(Texture.topWall)) x = y = 200; // FIXME Right now is random location
 			y -= vy;
+			// Player can't hit wall
+			if (hitWall(map)) {
+				y += vy;
+			}
 			break;
 
 		case 'A':
-		case 37:
 			x -= vx;
+			// Player can't hit wall
+			if (hitWall(map)) {
+				x += vx;
+			}
 			break;
 
 		case 'S':
-		case 40:
 			y += vy;
+			// Player can't hit wall
+			if (hitWall(map)) {
+				y -= vy;
+			}
 			break;
 
 		case 'D':
-		case 39:
 			x += vx;
+			// Player can't hit wall
+			if (hitWall(map)) {
+				x -= vx;
+			}
 			break;
 
 		}
+	}
+	
+	// Restrict player movement so player can't go past walls
+	boolean hitWall(int[][] map) {
+		// calculate the tile on which player is currently standing (using bottom center of player as reference)
+		xPos = (x + width/2)/Map.TILE_DIMENSION;
+		yPos = (y + height)/Map.TILE_DIMENSION;
+		
+		// If the player is not standing on a floor tile, return true
+		if (map[yPos][xPos] != 1) {
+			System.out.println(map[yPos][xPos]);
+			return true;
+		}
+		return false;
 	}
 
 	//THIS FOR ITEMS
