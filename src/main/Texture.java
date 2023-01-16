@@ -12,9 +12,7 @@ public class Texture extends Rectangle{
 	double rotation;
 	
 	// Cannot create a texture from other classes
-	private Texture() {
-		
-	}
+	private Texture() {}
 	
 	// Create a texture
 	private Texture(String fileName) {
@@ -57,8 +55,4 @@ public class Texture extends Rectangle{
 	static Texture topRightInCornerWall = new Texture("topright_innercorner_wall.png");
 	static Texture botLeftInCornerWall = new Texture("botleft_innercorner_wall.png");
 	static Texture botRightInCornerWall = new Texture("botright_innercorner_wall.png");
-	static Texture doorUp = new Texture("door.png", 0);
-	static Texture doorRight = new Texture("door.png", 90);
-	static Texture doorDown = new Texture("door.png", 180);
-	static Texture doorLeft = new Texture("door.png", 270);
 }
