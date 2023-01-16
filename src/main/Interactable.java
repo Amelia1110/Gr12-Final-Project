@@ -7,15 +7,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Interactables extends Rectangle{
+public class Interactable extends Rectangle{
 	BufferedImage img;
 	double rotation;
 	
 	// Cannot create an interactable from other classes
-	private Interactables() {}
+	private Interactable() {}
 	
 	// Create the interactable with an image
-	private Interactables(String fileName) {
+	private Interactable(String fileName) {
 		// Set int image
 		try {
 			img = ImageIO.read(new File(fileName));
@@ -27,7 +27,7 @@ public class Interactables extends Rectangle{
 	}
 	
 	// Create a rotated interactable with an image
-	private Interactables(String fileName, int rotation) {
+	private Interactable(String fileName, int rotation) {
 		// Set texture image
 		try {
 			img = ImageIO.read(new File(fileName));
@@ -42,10 +42,10 @@ public class Interactables extends Rectangle{
 	}
 	
 	// Create all textures (All textures should be 64 x 64)
-	static Interactables introNote = new Interactables("intronote.png");
-	static Interactables doorUp = new Interactables("door.png");
-	static Interactables doorRight = new Interactables("door.png", 90);
-	static Interactables doorDown = new Interactables("door.png", 180);
-	static Interactables doorLeft = new Interactables("door.png", 270);
+	static Interactable introNote = new Interactable("intronote.png");
+	static Interactable doorUp = new Interactable("door.png");
+	static Interactable doorRight = new Interactable("door.png", 90);
+	static Interactable doorDown = new Interactable("door.png", 180);
+	static Interactable doorLeft = new Interactable("door.png", 270);
 	
 }

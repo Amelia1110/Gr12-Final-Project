@@ -25,7 +25,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
-	static ArrayList<Interactables> interactables = new ArrayList<Interactables>();
+	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object
 	static Player player = new Player(6*64, 5*64);
@@ -91,11 +91,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Declare all interactables
 	void addInteractables() {
 		interactables.add(null);	//0
-		interactables.add(Interactables.doorUp);		//1
-		interactables.add(Interactables.doorRight); 	//2
-		interactables.add(Interactables.doorDown);		//3
-		interactables.add(Interactables.doorLeft);		//4
-		interactables.add(Interactables.introNote); 	//5
+		interactables.add(Interactable.doorUp);		//1
+		interactables.add(Interactable.doorRight); 	//2
+		interactables.add(Interactable.doorDown);		//3
+		interactables.add(Interactable.doorLeft);		//4
+		interactables.add(Interactable.introNote); 	//5
 		
 		
 	}
@@ -183,7 +183,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			int xPos;
 			int yPos;
 			
-			Interactables interactable;
+			Interactable interactable;
 			
 			// Iterate through and draw each element in the second layer of the map
 			for (int y = 0; y < targetMap.mapTopLayer.length; y++) {
