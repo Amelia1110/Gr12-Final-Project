@@ -45,7 +45,6 @@ class Player extends Rectangle{
 		switch (key) { 
 		case 'W':
 		case 38:
-			if (this.intersects(Texture.topWall)) x = y = 200; // FIXME Right now is random location
 			y -= vy;
 			break;
 
