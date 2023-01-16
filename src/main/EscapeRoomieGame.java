@@ -47,8 +47,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	EscapeRoomieGame() {
 		createMapObjects();
 		addTextures();
-		//Room1Panel = new DrawingPanel(testRoom1);
-		introPanel = new DrawingPanel(testIntroRoom);
+		Room1Panel = new DrawingPanel(testRoom1);
+		//introPanel = new DrawingPanel(testIntroRoom);
 		setupJFrame();
 		mainTimer.start();
 	}
