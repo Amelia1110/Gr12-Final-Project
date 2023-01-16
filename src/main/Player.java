@@ -56,7 +56,6 @@ class Player extends Rectangle{
 				y += vy;
 			}
 			break;
-
 		case 'A':
 			x -= vx;
 			// Player can't hit wall
@@ -64,7 +63,6 @@ class Player extends Rectangle{
 				x += vx;
 			}
 			break;
-
 		case 'S':
 			y += vy;
 			// Player can't hit wall
@@ -72,7 +70,6 @@ class Player extends Rectangle{
 				y -= vy;
 			}
 			break;
-
 		case 'D':
 			x += vx;
 			// Player can't hit wall
@@ -80,7 +77,6 @@ class Player extends Rectangle{
 				x -= vx;
 			}
 			break;
-
 		}
 	}
 	
