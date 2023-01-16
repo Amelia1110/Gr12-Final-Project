@@ -19,6 +19,9 @@ import javax.swing.Timer;
 public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Panels for all maps
 	DrawingPanel introPanel, room1Panel;
+	
+	// Keeps track of which panel is currently being displayed
+	DrawingPanel activePanel;
 
 	// Store all textures
 	ArrayList<Texture> textures = new ArrayList<Texture>();
@@ -58,7 +61,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 		// Render window
 		window.add(introPanel);
+		activePanel = introPanel;
 		window.add(room1Panel);
+		activePanel = room1Panel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -228,8 +233,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D');
 		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
 
-		//Room1Panel.repaint();
-		introPanel.repaint();
+		activePanel.repaint();
 		
 	}
 
