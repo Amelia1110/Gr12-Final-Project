@@ -18,17 +18,17 @@ import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Panels for all maps
-	DrawingPanel introPanel, room1Panel;
+	static DrawingPanel introPanel, room1Panel;
 	
 	// Keeps track of which panel is currently being displayed
-	DrawingPanel activePanel;
+	static DrawingPanel activePanel;
 
 	// Store all textures
-	ArrayList<Texture> textures = new ArrayList<Texture>();
-	ArrayList<Interactables> interactables = new ArrayList<Interactables>();
+	static ArrayList<Texture> textures = new ArrayList<Texture>();
+	static ArrayList<Interactables> interactables = new ArrayList<Interactables>();
 
 	// Create player object
-	Player player = new Player(585, 204);
+	static Player player = new Player(6*64, 5*64);
 
 	// Run program
 	public static void main(String[] args) {
@@ -226,15 +226,16 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	
 	/*** for mainTimer ***/
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		//move player (assuming that a key has been pressed)
-		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A');
-		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W');
-		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D');
-		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
-
-		activePanel.repaint();
+	public void actionPerformed(ActionEvent e) {	
+		int[][] map = activePanel.targetMap.mapGround;
 		
+		//move player (assuming that a key has been pressed)
+		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', map);
+		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', map);
+		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', map);
+		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', map);
+		
+		activePanel.repaint();
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package main;
 public class Map {
 	final int[][] mapGround;
 	final int[][] mapTopLayer;
+	final static int TILE_DIMENSION = 64; // Each tile on the map should be 64 pixels, add imported images are 64 pixels
 	
 	// Inaccesible
 	private Map() {
