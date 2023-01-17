@@ -22,6 +22,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
+	static Dialog currentScene = Dialog.introScene1;
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
@@ -95,7 +96,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		interactables.add(Interactable.doorRight); 	//2
 		interactables.add(Interactable.doorDown);		//3
 		interactables.add(Interactable.doorLeft);		//4
-		interactables.add(Interactable.introNote); 	//5
 		
 		
 	}
@@ -144,6 +144,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			
 			//draw player
 			loadPlayer();
+			
+			// draw dialog if there dialog is set to on
+			if (Dialog.showDialog) {
+				g2.drawImage(Dialog.img, 64, 832, null);
+			}
 		}
 
 

@@ -22,7 +22,7 @@ public class Interactable extends Rectangle{
 			width = img.getWidth();
 			height = img.getHeight();
 		} catch (IOException e) {
-			System.out.println("Warning: image failed to load");
+			System.out.println("Warning: interactable failed to load");
 		}		
 	}
 	
@@ -34,7 +34,7 @@ public class Interactable extends Rectangle{
 			width = img.getWidth();
 			height = img.getHeight();
 		} catch (IOException e) {
-			System.out.println("Warning: image failed to load");
+			System.out.println("Warning: interactable failed to load");
 		}
 
 		// Set rotation
@@ -42,7 +42,6 @@ public class Interactable extends Rectangle{
 	}
 	
 	// Create all textures (All textures should be 64 x 64)
-	static Interactable introNote = new Interactable("intronote.png");
 	static Interactable doorUp = new Interactable("door.png");
 	static Interactable doorRight = new Interactable("door.png", 90);
 	static Interactable doorDown = new Interactable("door.png", 180);

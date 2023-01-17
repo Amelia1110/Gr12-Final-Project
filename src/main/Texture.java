@@ -22,7 +22,7 @@ public class Texture extends Rectangle{
 			width = img.getWidth();
 			height = img.getHeight();
 		} catch (IOException e) {
-			System.out.println("Warning: image failed to load");
+			System.out.println("Warning: texture failed to load");
 		}		
 	}
 	
@@ -34,7 +34,7 @@ public class Texture extends Rectangle{
 			width = img.getWidth();
 			height = img.getHeight();
 		} catch (IOException e) {
-			System.out.println("Warning: image failed to load");
+			System.out.println("Warning: texture failed to load");
 		}		
 		
 		// Set rotation
