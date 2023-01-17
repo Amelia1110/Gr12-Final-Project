@@ -92,7 +92,6 @@ class Player extends Rectangle{
 		
 		// If the player is not standing on a floor tile, return true
 		if (map[yPos][xPos] != 1) {
-			System.out.println(map[yPos][xPos]);
 			return true;
 		}
 		return false;

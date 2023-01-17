@@ -67,8 +67,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		// Render window
 		window.add(introPanel);
 		activePanel = introPanel;
-		window.add(room1Panel);
-		activePanel = room1Panel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -110,6 +108,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 12 * 64;
 		static Font pixeloidSans;
+		static Font gameFont;
 
 		Graphics2D g2;
 
@@ -134,6 +133,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			// Create Font for dialogs
 			try {
 				pixeloidSans = Font.createFont(0, new File("PixeloidSans-JR6qo.ttf"));
+				gameFont = pixeloidSans.deriveFont(20f);
+				
 			} catch (FontFormatException e) {
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
@@ -153,7 +154,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
 			// Set font
-			g2.setFont(pixeloidSans);
+			g2.setFont(gameFont);
 
 			//draw map
 			loadMap();
@@ -163,11 +164,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			//draw player
 			loadPlayer();
 			
-			// FIXME Not drawing agh
 			// draw dialog if there dialog is set to on
 			if (Dialog.showDialog) {
 				g2.drawImage(currentScene.img, currentScene.x, currentScene.y, null);
-				g2.drawString(currentScene.sceneDialog[0], currentScene.x + 32, currentScene.y + 32);
+				g2.setColor(Color.WHITE);
+				drawDialog();
 			}
 		}
 
@@ -246,6 +247,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 				g2.drawRect(player.x, player.y, player.width, player.height);
 			}
 		}
+		
+		// TODO: Split string then print each string lower than the previous
+		void drawDialog() {
+			g2.drawString(currentScene.sceneDialog[Dialog.currentText], currentScene.x + 45, currentScene.y + 60);
+		}
 	}
 
 	
@@ -275,6 +281,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		xCor = e.getX();
 		yCor = e.getY();
 		System.out.println(xCor + ", " + yCor + "\n");
+		
+		if (Dialog.showDialog) {
+			currentScene.currentText++;
+		}
 	}
 
 	@Override

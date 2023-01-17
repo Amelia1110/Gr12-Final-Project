@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class Dialog extends Rectangle {
 	static boolean showDialog = true;
 	BufferedImage img;
-	static String currentText;
+	static int currentText = 0;
 	// All dialog for the current scene
 	final String[] sceneDialog;
 	
@@ -27,7 +27,7 @@ public class Dialog extends Rectangle {
 				
 		// Set x and y coordinates
 		x = 64;
-		y = 832;
+		y = 64 * 7;
 		
 		// Fill dialog array
 		this.sceneDialog = sceneDialog;
@@ -41,8 +41,8 @@ public class Dialog extends Rectangle {
 	// INTRO SCENE
 	// Create dialog object for each scene
 	private static final String[] introScene1Text = {
-			"Hello there, you unfortunate little creature",
-			"As you have already noticed – hopefully – you find yourself locked inside this miserable space with none but one way out – the path we designed for you.",
+			"Hello there, you unfortunate little creature.",
+			"As you have already noticed – hopefully – you find yourself locked inside this miserable*space with none but one way out – the path we designed for you.",
 			"To help you focus on this task, we have erased all memories for you except the following pieces:"
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);
