@@ -42,10 +42,9 @@ public class Interactables extends Rectangle{
 	}
 	
 	// Create all textures (All textures should be 64 x 64)
-	static Interactables introNote = new Interactables("intronote.png");
 	static Interactables doorUp = new Interactables("door.png");
 	static Interactables doorRight = new Interactables("door.png", 90);
 	static Interactables doorDown = new Interactables("door.png", 180);
 	static Interactables doorLeft = new Interactables("door.png", 270);
-	
+	static Interactables introNote = new Interactables("intronote.png");
 }
