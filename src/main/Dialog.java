@@ -9,10 +9,10 @@ import javax.imageio.ImageIO;
 
 public class Dialog extends Rectangle {
 	static boolean showDialog = true;
-	static BufferedImage img;
+	BufferedImage img;
 	static String currentText;
 	// All dialog for the current scene
-	private final String[] sceneDialog;
+	final String[] sceneDialog;
 	
 	// Cannot create a dialog object from other classes
 	private Dialog(String[] sceneDialog) {
