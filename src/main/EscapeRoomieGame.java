@@ -98,6 +98,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		interactables.add(Interactable.doorRight); 	//2
 		interactables.add(Interactable.doorDown);		//3
 		interactables.add(Interactable.doorLeft);		//4
+		interactables.add(Interactable.wallLight); 	//5
 		
 		
 	}
@@ -132,7 +133,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			
 			// Create Font for dialogs
 			try {
-				pixeloidSans = Font.createFont(0, new File("PixeloidSans-JR6qo.ttf"));
+				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
 				gameFont = pixeloidSans.deriveFont(20f);
 				
 			} catch (FontFormatException e) {

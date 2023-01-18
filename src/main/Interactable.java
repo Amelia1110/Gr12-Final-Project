@@ -46,5 +46,6 @@ public class Interactable extends Rectangle{
 	static Interactable doorRight = new Interactable("door.png", 90);
 	static Interactable doorDown = new Interactable("door.png", 180);
 	static Interactable doorLeft = new Interactable("door.png", 270);
+	static Interactable wallLight = new Interactable("wallLight.png");
 	
 }
