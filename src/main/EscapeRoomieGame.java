@@ -248,9 +248,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			}
 		}
 		
-		// TODO: Split string then print each string lower than the previous
+		// Draw dialog
 		void drawDialog() {
-			g2.drawString(currentScene.sceneDialog[Dialog.currentText], currentScene.x + 45, currentScene.y + 60);
+			String current = currentScene.sceneDialog[currentScene.currentText];
+			String[] dialog = current.split("#", 0);
+			
+			for (int i = 0; i < dialog.length; i++) {
+				g2.drawString(dialog[i], currentScene.x + 45, currentScene.y + 60 + (i * 30));
+			}
 		}
 	}
 
