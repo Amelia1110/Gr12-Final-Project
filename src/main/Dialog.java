@@ -42,7 +42,7 @@ public class Dialog extends Rectangle {
 	// Create dialog object for each scene
 	private static final String[] introScene1Text = {
 			"Hello there, you unfortunate little creature.",
-			"As you have already noticed – hopefully – you find yourself locked inside this miserable#space with none but one way out – the path we designed for you.",
+			"As you have already noticed - hopefully - you find yourself locked inside this miserable#space with none but one way out - the path we designed for you.",
 			"To help you focus on this task, we have erased all memories for you except the#following pieces:"
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);
@@ -54,7 +54,7 @@ public class Dialog extends Rectangle {
 	static Dialog introScene2 = new Dialog(introScene2Text);
 	
 	private static final String[] introScene3Text = {
-			"We are glad your intelligence still remains, unlike most of your memories. You’re welcome, by the way, if the hint helped you at all.",
+			"We are glad your intelligence still remains, unlike most of your memories. You're welcome, by the way, if the hint helped you at all.",
 			"As we mentioned, we are not your enemies, so whenever you are stuck, press ‘H’ for hints – three in total, unless you purchase more in the future… – again, you’re welcome.",
 			"We are also glad you have successfully solved the first puzzle, so as promised, here is what you need to know:",
 			"You are enrolled at a school designed for outcasts, and the reason you are here is because you have discovered our secret society, exclusive to only the most elite. You either regain your freedom, memories, and eternal glory by successfully completing this task we have carefully designed for you, or you die.",
