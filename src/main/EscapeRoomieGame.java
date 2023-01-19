@@ -33,7 +33,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object
-	static Player player = new Player(6*64, 5*64);
+	static Player player = new Player(9*64, 5*64);
 
 	// Run program
 	public static void main(String[] args) {
