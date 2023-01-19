@@ -16,7 +16,7 @@ class Player extends Rectangle{
 	private int vy = 2;	//yspeed at which player moves
 	boolean showHitBox = false; //for testing because player is a rectangle 
 	// Player's position on the map grid (not pixels), index on map
-	int xPos;
+	int xPos, xPos1, xPos2;
 	int yPos;
 
 	BufferedImage image; //for drawing the image on graphics 
@@ -79,11 +79,13 @@ class Player extends Rectangle{
 	// Restrict player movement so player can't go past walls
 	boolean hitWall(int[][] map) {
 		// calculate the tile on which player is currently standing (using bottom center of player as reference)
-		xPos = (x + width/2)/Map.TILE_DIMENSION;
+		xPos1 = x/Map.TILE_DIMENSION;
+		xPos2 = (x + width)/Map.TILE_DIMENSION;
 		yPos = (y + height)/Map.TILE_DIMENSION;
 		
 		// If the player is not standing on a floor tile, return hitWall as true
-		if (map[yPos][xPos] != 1) return true;
+		if (map[yPos][xPos1] != 1) return true;
+		if (map[yPos][xPos2] != 1) return true;
 		return false;
 	}
 
