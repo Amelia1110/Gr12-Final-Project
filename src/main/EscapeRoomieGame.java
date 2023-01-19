@@ -108,8 +108,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		// Game dimensions
 		static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 12 * 64;
-		static Font pixeloidSans;
-		static Font gameFont;
+		Font pixeloidSans;
+		Font gameFont;
 
 		Graphics2D g2;
 
