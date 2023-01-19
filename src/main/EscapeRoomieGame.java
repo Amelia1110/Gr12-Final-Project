@@ -9,7 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.Font;
+import java.awt.FontFormatException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,10 +26,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
+	static Dialog currentScene = Dialog.introScene1;
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
-	static ArrayList<Interactables> interactables = new ArrayList<Interactables>();
+	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object
 	static Player player = new Player(6*64, 5*64);
@@ -62,8 +67,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		// Render window
 		window.add(introPanel);
 		activePanel = introPanel;
-		window.add(room1Panel);
-		activePanel = room1Panel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -92,20 +95,21 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Declare all interactables
 	void addInteractables() {
 		interactables.add(null);	//0
-		interactables.add(Interactables.doorUp);		//1
-		interactables.add(Interactables.doorRight); 	//2
-		interactables.add(Interactables.doorDown);		//3
-		interactables.add(Interactables.doorLeft);		//4
-		interactables.add(Interactables.introNote); 	//5
+		interactables.add(Interactable.doorUp);		//1
+		interactables.add(Interactable.doorRight); 	//2
+		interactables.add(Interactable.doorDown);		//3
+		interactables.add(Interactable.doorLeft);		//4
+		interactables.add(Interactable.wallLight); 	//5
 		
 	}
 
 	// DrawingPanel class
 	private class DrawingPanel extends JPanel {
-
 		// Game dimensions
 		static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 12 * 64;
+		static Font pixeloidSans;
+		static Font gameFont;
 
 		Graphics2D g2;
 
@@ -126,6 +130,19 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			this.setBackground(Color.BLACK);
 			this.addKeyListener(bKeyL);
 			this.setFocusable(true);
+			
+			// Create Font for dialogs
+			try {
+				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
+				gameFont = pixeloidSans.deriveFont(20f);
+				
+			} catch (FontFormatException e) {
+				System.out.println("Warning: font failed to load");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("Warning: font failed to load");
+				e.printStackTrace();
+			}
 		}
 
 		// Draw components
@@ -136,6 +153,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			g2 = (Graphics2D) g;
 			//antialiasing:
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			
+			// Set font
+			g2.setFont(gameFont);
 
 			//draw map
 			loadMap();
@@ -144,6 +164,13 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			
 			//draw player
 			loadPlayer();
+			
+			// draw dialog if there dialog is set to on
+			if (Dialog.showDialog) {
+				g2.drawImage(currentScene.img, currentScene.x, currentScene.y, null);
+				g2.setColor(Color.WHITE);
+				drawDialog();
+			}
 		}
 
 
@@ -183,7 +210,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			int xPos;
 			int yPos;
 			
-			Interactables interactable;
+			Interactable interactable;
 			
 			// Iterate through and draw each element in the second layer of the map
 			for (int y = 0; y < targetMap.mapTopLayer.length; y++) {
@@ -221,6 +248,16 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 				g2.drawRect(player.x, player.y, player.width, player.height);
 			}
 		}
+		
+		// Draw dialog
+		void drawDialog() {
+			String current = currentScene.sceneDialog[currentScene.currentText];
+			String[] dialog = current.split("#", 0);
+			
+			for (int i = 0; i < dialog.length; i++) {
+				g2.drawString(dialog[i], currentScene.x + 45, currentScene.y + 60 + (i * 30));
+			}
+		}
 	}
 
 	
@@ -250,6 +287,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		xCor = e.getX();
 		yCor = e.getY();
 		System.out.println(xCor + ", " + yCor + "\n");
+		
+		if (Dialog.showDialog) {
+			currentScene.currentText++;
+		}
 	}
 
 	@Override
