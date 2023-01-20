@@ -55,4 +55,5 @@ public class Texture extends Rectangle{
 	static Texture topRightInCornerWall = new Texture("topright_innercorner_wall.png");
 	static Texture botLeftInCornerWall = new Texture("botleft_innercorner_wall.png");
 	static Texture botRightInCornerWall = new Texture("botright_innercorner_wall.png");
+	static Texture shopIcon = new Texture("shopIcon.png");
 }
