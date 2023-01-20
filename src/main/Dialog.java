@@ -42,7 +42,7 @@ public class Dialog extends Rectangle {
 	// Create dialog object for each scene
 	private static final String[] introScene1Text = {
 			"Hello there, you unfortunate little creature.",
-			"As you have already noticed – hopefully – you find yourself locked inside this miserable#space with none but one way out – the path we designed for you.",
+			"As you have already noticed - hopefully - you find yourself locked inside this miserable#space with none but one way out - the path we designed for you.",
 			"To help you focus on this task, we have erased all memories for you except the#following pieces:"
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);

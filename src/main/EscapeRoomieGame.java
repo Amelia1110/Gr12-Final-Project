@@ -9,12 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.FontFormatException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -22,7 +24,7 @@ import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Panels for all maps
-	static DrawingPanel introPanel, room1Panel;
+	static DrawingPanel introPanel, room1Panel, shopPanel;
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
@@ -54,6 +56,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		addInteractables();
 		introPanel = new DrawingPanel(Map.introRoom);
 		room1Panel = new DrawingPanel(Map.room1);
+		shopPanel = new DrawingPanel(Map.shopRoom);
 		setupJFrame();
 		mainTimer.start();
 	}
@@ -65,8 +68,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Render window
-		window.add(introPanel);
-		activePanel = introPanel;
+		window.add(shopPanel);
+		activePanel = shopPanel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -89,6 +92,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		textures.add(Texture.topRightInCornerWall); //11
 		textures.add(Texture.botLeftInCornerWall);  //12
 		textures.add(Texture.botRightInCornerWall); //13
+		
 	}
 	
 	// Declare all interactables
@@ -98,8 +102,15 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		interactables.add(Interactable.doorRight); 	//2
 		interactables.add(Interactable.doorDown);		//3
 		interactables.add(Interactable.doorLeft);		//4
+		interactables.add(Interactable.wallLight); 	//5
+
+		interactables.add(Interactable.burger); //6
+		interactables.add(Interactable.milk); //7
+		interactables.add(Interactable.flashlight); //8
+		interactables.add(Interactable.hint); //9
 		
-		
+		interactables.add(Interactable.closedBook);//10
+		interactables.add(Interactable.openBook); //11
 	}
 
 	// DrawingPanel class
@@ -107,8 +118,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		// Game dimensions
 		static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 12 * 64;
-		static Font pixeloidSans;
-		static Font gameFont;
+		Font pixeloidSans;
+		Font gameFont;
 
 		Graphics2D g2;
 
@@ -132,7 +143,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			
 			// Create Font for dialogs
 			try {
-				pixeloidSans = Font.createFont(0, new File("PixeloidSans-JR6qo.ttf"));
+				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
 				gameFont = pixeloidSans.deriveFont(20f);
 				
 			} catch (FontFormatException e) {
@@ -158,6 +169,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 			//draw map
 			loadMap();
+			
+			//draw shop icon in shop:
+			if (activePanel.equals(shopPanel)) {
+				g2.drawImage(Texture.shopIcon.img, 64*7, 64*4, null);			
+			}
+			
 			//draw interactables
 			loadInteractables();
 			
