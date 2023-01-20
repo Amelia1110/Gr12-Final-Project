@@ -47,6 +47,7 @@ public class Interactable extends Rectangle{
 	static Interactable doorDown = new Interactable("door.png", 180);
 	static Interactable doorLeft = new Interactable("door.png", 270);
 	static Interactable wallLight = new Interactable("wallLight.png");
+
 	//these are items up to purchase in shop 
 	static Interactable burger = new Interactable("burger.png"); //gives player 40 health points
 	static Interactable milk = new Interactable("milk.png"); //gives player 20 health points
@@ -55,4 +56,6 @@ public class Interactable extends Rectangle{
 	//puzzle items in game
 	static Interactable closedBook = new Interactable("closedBook.png"); //gives player 20 health points
 	static Interactable openBook = new Interactable("openBook.png"); //gives player 20 health points
+
+	static Interactable introNote = new Interactable("intronote.png");
 }

@@ -92,6 +92,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		textures.add(Texture.topRightInCornerWall); //11
 		textures.add(Texture.botLeftInCornerWall);  //12
 		textures.add(Texture.botRightInCornerWall); //13
+		
 	}
 	
 	// Declare all interactables
@@ -102,7 +103,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		interactables.add(Interactable.doorDown);		//3
 		interactables.add(Interactable.doorLeft);		//4
 		interactables.add(Interactable.wallLight); 	//5
-		
+
 		interactables.add(Interactable.burger); //6
 		interactables.add(Interactable.milk); //7
 		interactables.add(Interactable.flashlight); //8
