@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Dialog extends Rectangle {
-	static boolean showDialog = true;
+	static boolean showDialog = false;
 	BufferedImage img;
 	int currentText = 0;
 	// All dialog for the current scene

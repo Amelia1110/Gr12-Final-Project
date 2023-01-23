@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -22,13 +24,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class EscapeRoomieGame implements ActionListener, MouseListener {
+public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
 	// Panels for all maps
 	static DrawingPanel introPanel, room1Panel, shopPanel;
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
-	static Dialog currentScene = Dialog.introScene1;
+	static Dialog currentScene;
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
@@ -68,8 +70,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Render window
-		window.add(shopPanel);
-		activePanel = shopPanel;
+		window.add(introPanel);
+		activePanel = introPanel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -111,6 +113,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		
 		interactables.add(Interactable.closedBook);//10
 		interactables.add(Interactable.openBook); //11
+		
+		interactables.add(Interactable.introNote); //12
 	}
 
 	// DrawingPanel class
@@ -119,7 +123,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
 		static final int PANH = 12 * 64;
 		Font pixeloidSans;
-		Font gameFont;
+		Font dialogFont, promptFont;
 
 		Graphics2D g2;
 
@@ -144,7 +148,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			// Create Font for dialogs
 			try {
 				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
-				gameFont = pixeloidSans.deriveFont(20f);
+				dialogFont = pixeloidSans.deriveFont(20f);
+				promptFont = pixeloidSans.deriveFont(10f);
 				
 			} catch (FontFormatException e) {
 				System.out.println("Warning: font failed to load");
@@ -163,10 +168,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			g2 = (Graphics2D) g;
 			//antialiasing:
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			
-			// Set font
-			g2.setFont(gameFont);
-
+		
 			//draw map
 			loadMap();
 			
@@ -181,11 +183,22 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			//draw player
 			loadPlayer();
 			
+			g2.setColor(Color.WHITE);
+			
+			// if an interaction is possible
+			if (player.canInteractWith(targetMap.mapTopLayer) != 0) {
+				g2.setFont(promptFont);
+				g2.drawString("E to Interact", player.x, player.y - 10);
+			}
+			
 			// draw dialog if there dialog is set to on
 			if (Dialog.showDialog) {
+				g2.setFont(dialogFont);
 				g2.drawImage(currentScene.img, currentScene.x, currentScene.y, null);
-				g2.setColor(Color.WHITE);
-				drawDialog();
+				if (currentScene.currentText <= currentScene.sceneDialog.length) {
+					drawDialog();
+				}
+				else Dialog.showDialog = false;
 			}
 		}
 
@@ -280,16 +293,16 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	/*** for mainTimer ***/
 	@Override
 	public void actionPerformed(ActionEvent e) {	
-		int[][] map = activePanel.targetMap.mapGround;
+		int[][] groundMap = activePanel.targetMap.mapGround;
+		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 		
 		//move player (assuming that a key has been pressed)
-		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', map);
-		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', map);
-		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', map);
-		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', map);
-		
+		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
+		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
+		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
+		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
 		activePanel.repaint();
-	}
+	};
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -324,5 +337,37 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int[][]	topMap = activePanel.targetMap.mapTopLayer;
+		int keyCode = e.getKeyCode();
+		
+		// Interact
+		if (bKeyL.isKeyDown('E')){
+			System.out.println("hello world");
+		}
+		
+		/*if (e.getKeyChar() == 'e' ) {
+			System.out.println("hello world");
+			/*Interactable target = interactables.get(player.canInteractWith(topMap));
+			target.interact();
+			}
+			*/
+		
+		activePanel.repaint();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
