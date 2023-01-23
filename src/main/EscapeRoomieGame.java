@@ -72,6 +72,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		// Render window
 		window.add(introPanel);
 		activePanel = introPanel;
+		activePanel.addKeyListener(this);
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -351,7 +352,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		int keyCode = e.getKeyCode();
 		
 		// Interact
-		if (bKeyL.isKeyDown('E')){
+		if (keyCode == KeyEvent.VK_E){
 			System.out.println("hello world");
 		}
 		
