@@ -19,6 +19,7 @@ public class Note extends Interactable {
 	
 	@Override
 	void interact() {
-		System.out.println("Interacted");
+		Dialog.showDialog = true;
+		EscapeRoomieGame.currentScene = this.sceneDialog; 
 	}
 }
