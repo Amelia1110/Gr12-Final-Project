@@ -12,23 +12,23 @@ public class Interactable extends Rectangle{
 	double rotation;
 	
 	// Cannot create an interactable from other classes
-	private Interactable() {}
+	Interactable() {}
 	
 	// Create the interactable with an image
-	private Interactable(String fileName) {
-		// Set int image
-		try {
-			img = ImageIO.read(new File(fileName));
-			width = img.getWidth();
-			height = img.getHeight();
-		} catch (IOException e) {
-			System.out.println("Warning: interactable failed to load");
-		}		
+	Interactable(String fileName) {
+		setImageFile(fileName);
 	}
 	
 	// Create a rotated interactable with an image
-	private Interactable(String fileName, int rotation) {
-		// Set texture image
+	Interactable(String fileName, int rotation) {
+		setImageFile(fileName);
+		
+		// Set rotation
+		this.rotation = Math.toRadians(rotation);
+	}
+	
+	void setImageFile(String fileName) {
+		// Set interactable image
 		try {
 			img = ImageIO.read(new File(fileName));
 			width = img.getWidth();
@@ -36,9 +36,10 @@ public class Interactable extends Rectangle{
 		} catch (IOException e) {
 			System.out.println("Warning: interactable failed to load");
 		}
-
-		// Set rotation
-		this.rotation = Math.toRadians(rotation);
+	}
+	
+	void interact() {
+		
 	}
 	
 	// Create all textures (All textures should be 64 x 64)
@@ -57,5 +58,5 @@ public class Interactable extends Rectangle{
 	static Interactable closedBook = new Interactable("closedBook.png"); //gives player 20 health points
 	static Interactable openBook = new Interactable("openBook.png"); //gives player 20 health points
 
-	static Interactable introNote = new Interactable("intronote.png");
+	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
 }
