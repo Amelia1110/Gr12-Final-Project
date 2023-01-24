@@ -198,7 +198,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.drawString("E to Interact", player.x, player.y - 10);
 			}
 			
-			
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
 			int radius = 80;
