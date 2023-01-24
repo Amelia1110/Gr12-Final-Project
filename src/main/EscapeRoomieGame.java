@@ -202,7 +202,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			if (Dialog.showDialog) {
 				g2.setFont(dialogFont);
 				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
-				drawDialog();
+				drawDialog(g2);
 			}
 
 			//draw vision restrictions
