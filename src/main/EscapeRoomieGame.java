@@ -196,10 +196,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			if (Dialog.showDialog) {
 				g2.setFont(dialogFont);
 				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
-				if (currentScene.currentText <= currentScene.sceneDialog.length) {
-					drawDialog();
-				}
-				else Dialog.showDialog = false;
+				drawDialog();
 			}
 		}
 
@@ -318,8 +315,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		yCor = e.getY();
 		System.out.println(xCor + ", " + yCor + "\n");
 		
-		if (Dialog.showDialog) {
+		if (Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
 			currentScene.currentText++;
+		}
+		
+		if (currentScene.currentText == currentScene.sceneDialog.length) {
+			Dialog.showDialog = false;
 		}
 	}
 
@@ -349,10 +350,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
-		int keyCode = e.getKeyCode();
 		
 		if (e.getKeyChar() == 'e' ) {
-			System.out.println("hello world");
 			Interactable target = interactables.get(player.canInteractWith(topMap));
 			target.interact();
 		}

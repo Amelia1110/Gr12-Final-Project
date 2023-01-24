@@ -43,17 +43,13 @@ public class Dialog extends Rectangle {
 	private static final String[] introScene1Text = {
 			"Hello there, you unfortunate little creature.",
 			"As you have already noticed - hopefully - you find yourself locked inside this miserable#space with none but one way out - the path we designed for you.",
-			"To help you focus on this task, we have erased all memories for you except the#following pieces:"
+			"To help you focus on this task, we have erased all memories for you except the#following pieces:#16 18 5 19 19#'5'#20 15#19 5 5",
+			"Here is a taste of what to expect for the duration of the whole task of freeing yourself#from the cage:",
+			"You will solve a series of puzzles, riddles, and games, of which the answers will lead#you to freedom and more. Since we are not heartless creatures or your enemies,#here is a hint:# #Each of the numbers correlates to a letter based on their order in the alphabet.",
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);
 	
 	private static final String[] introScene2Text = {
-			"Here is a taste of what to expect for the duration of the whole task of freeing yourself from the cage:",
-			"You will solve a series of puzzles, riddles, and games, of which the answers will lead you to freedom and more. Since we are not heartless creatures or your enemies, here is a hint: each of the numbers correlates to a letter based on their order in the alphabet."
-	};
-	static Dialog introScene2 = new Dialog(introScene2Text);
-	
-	private static final String[] introScene3Text = {
 			"We are glad your intelligence still remains, unlike most of your memories. You’re welcome, by the way, if the hint helped you at all.",
 			"As we mentioned, we are not your enemies, so whenever you are stuck, press ‘H’ for hints – three in total, unless you purchase more in the future… – again, you’re welcome.",
 			"We are also glad you have successfully solved the first puzzle, so as promised, here is what you need to know:",
@@ -61,5 +57,5 @@ public class Dialog extends Rectangle {
 			"Simple really, isn’t it?",
 			"Now, crack the following message and type your answer below, same process as last one: (better not mess this up, it is the name of our o’mighty society)"
 	};
-	static Dialog introScene3 = new Dialog(introScene3Text);
+	static Dialog introScene3 = new Dialog(introScene2Text);
 }

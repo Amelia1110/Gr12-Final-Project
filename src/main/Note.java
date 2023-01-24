@@ -25,7 +25,8 @@ public class Note extends Interactable {
 	
 	@Override
 	void interact() {
-		EscapeRoomieGame.currentScene = scene; 
+		scene.currentText = 0;
+		EscapeRoomieGame.currentScene = scene;
 		Dialog.showDialog = true;	
 	}
 }
