@@ -198,13 +198,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.drawString("E to Interact", player.x, player.y - 10);
 			}
 			
-			// draw dialog if there dialog is set to on
-			if (Dialog.showDialog) {
-				g2.setFont(dialogFont);
-				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
-				drawDialog();
-			}
-
+			
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
 			int radius = 80;
@@ -216,6 +210,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 
 			g2.setColor(Color.BLACK);
 			g2.fill(outer);
+			
+			// draw dialog if there dialog is set to on
+			if (Dialog.showDialog) {
+				g2.setColor(Color.WHITE);
+				g2.setFont(dialogFont);
+				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
+				drawDialog();
+			}
 		}
 
 
@@ -296,7 +298,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		}
 
 		// Draw dialog
-		void drawDialog(Graphics2D g2) {
+		void drawDialog() {
 			String current = currentScene.sceneDialog[currentScene.currentText];
 			String[] dialog = current.split("#", 0);
 
