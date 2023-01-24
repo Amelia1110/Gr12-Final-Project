@@ -195,7 +195,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			// draw dialog if there dialog is set to on
 			if (Dialog.showDialog) {
 				g2.setFont(dialogFont);
-				g2.drawImage(currentScene.img, currentScene.x, currentScene.y, null);
+				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
 				if (currentScene.currentText <= currentScene.sceneDialog.length) {
 					drawDialog();
 				}
@@ -351,17 +351,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 		int keyCode = e.getKeyCode();
 		
-		// Interact
-		if (keyCode == KeyEvent.VK_E){
+		if (e.getKeyChar() == 'e' ) {
 			System.out.println("hello world");
-		}
-		
-		/*if (e.getKeyChar() == 'e' ) {
-			System.out.println("hello world");
-			/*Interactable target = interactables.get(player.canInteractWith(topMap));
+			Interactable target = interactables.get(player.canInteractWith(topMap));
 			target.interact();
-			}
-			*/
+		}
+
 		
 		activePanel.repaint();
 	}
