@@ -28,8 +28,8 @@ import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener {
 	// Panels for all maps
-	static DrawingPanel introPanel, room1Panel;
-
+	static DrawingPanel introPanel, room1Panel, shopPanel;
+	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
 	static Dialog currentScene = Dialog.introScene1;
@@ -64,6 +64,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		addInteractables();
 		introPanel = new DrawingPanel(Map.introRoom);
 		room1Panel = new DrawingPanel(Map.room1);
+		shopPanel = new DrawingPanel(Map.shopRoom);
 		setupJFrame();
 		mainTimer.start();
 	}
@@ -75,8 +76,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Render window
-		window.add(introPanel);
-		activePanel = introPanel;
+		window.add(shopPanel);
+		activePanel = shopPanel;
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -110,7 +111,15 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		interactables.add(Interactable.doorDown);		//3
 		interactables.add(Interactable.doorLeft);		//4
 		interactables.add(Interactable.wallLight); 	//5
-		interactables.add(Interactable.introNote); 	//6
+		
+		interactables.add(Interactable.burger); //6
+		interactables.add(Interactable.milk); //7
+		interactables.add(Interactable.flashlight); //8
+		interactables.add(Interactable.hint); //9
+		
+		interactables.add(Interactable.closedBook);//10
+		interactables.add(Interactable.openBook); //11
+    interactables.add(Interactable.introNote); 	//12
 	}
 
 	// DrawingPanel class
@@ -168,7 +177,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 			//draw map
 			loadMap();
-
+			
+			//draw shop icon in shop:
+			if (activePanel.equals(shopPanel)) {
+				g2.drawImage(Texture.shopIcon.img, 64*7, 64*4, null);			
+			}
+			
 			//draw interactables
 			loadInteractables();
 
