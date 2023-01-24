@@ -9,6 +9,8 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Area;
@@ -26,13 +28,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class EscapeRoomieGame implements ActionListener, MouseListener {
+public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
 	// Panels for all maps
 	static DrawingPanel introPanel, room1Panel, shopPanel;
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
-	static Dialog currentScene = Dialog.introScene1;
+	static Dialog currentScene;
 
 	//panel size is 18 by 12 squares
 	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
@@ -43,7 +45,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object on tile (8, 5)
-	static Player player = new Player(8*64, 5*64);//FIXME
+	static Player player = new Player(9*64, 5*64);
 
 	// Run program
 	public static void main(String[] args) {
@@ -76,8 +78,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Render window
-		window.add(shopPanel);
-		activePanel = shopPanel;
+		window.add(introPanel);
+		activePanel = introPanel;
+		activePanel.addKeyListener(this);
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
@@ -119,7 +122,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		
 		interactables.add(Interactable.closedBook);//10
 		interactables.add(Interactable.openBook); //11
-    interactables.add(Interactable.introNote); 	//12
+		
+		interactables.add(Interactable.introNote); //12
 	}
 
 	// DrawingPanel class
@@ -127,7 +131,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 		// Game dimensions
 
 		Font pixeloidSans;
-		Font gameFont;
+		Font dialogFont, promptFont;
 
 		Graphics2D g2;
 
@@ -152,8 +156,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			// Create Font for dialogs
 			try {
 				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
-				gameFont = pixeloidSans.deriveFont(20f);
-
+				dialogFont = pixeloidSans.deriveFont(20f);
+				promptFont = pixeloidSans.deriveFont(10f);
 			} catch (FontFormatException e) {
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
@@ -172,13 +176,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 			//antialiasing:
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			// Set font
-			g2.setFont(gameFont);
-
 			//draw map
 			loadMap();
 			
-			//draw shop icon in shop:
+			//draw shop icon in shop: (large shop image on floor)
 			if (activePanel.equals(shopPanel)) {
 				g2.drawImage(Texture.shopIcon.img, 64*7, 64*4, null);			
 			}
@@ -188,6 +189,21 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 			//draw player
 			loadPlayer();
+			
+			g2.setColor(Color.WHITE);
+			
+			// if an interaction is possible
+			if (player.canInteractWith(targetMap.mapTopLayer) != 0) {
+				g2.setFont(promptFont);
+				g2.drawString("E to Interact", player.x, player.y - 10);
+			}
+			
+			// draw dialog if there dialog is set to on
+			if (Dialog.showDialog) {
+				g2.setFont(dialogFont);
+				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
+				drawDialog();
+			}
 
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
@@ -200,7 +216,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 
 			g2.setColor(Color.BLACK);
 			g2.fill(outer);
-
 		}
 
 
@@ -295,16 +310,17 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	/*** for mainTimer ***/
 	@Override
 	public void actionPerformed(ActionEvent e) {	
-		int[][] map = activePanel.targetMap.mapGround;
-
+		int[][] groundMap = activePanel.targetMap.mapGround;
+		int[][]	topMap = activePanel.targetMap.mapTopLayer;
+		
 		//move player (assuming that a key has been pressed)
-		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', map);
-		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', map);
-		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', map);
-		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', map);
+		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
+		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
+		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
+		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
 
 		activePanel.repaint();
-	}
+	};
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -315,12 +331,17 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int xCor, yCor;
+    // Get coordinates of click
 		xCor = e.getX();
 		yCor = e.getY();
-		System.out.println(xCor + ", " + yCor + "\n");
-
-		if (Dialog.showDialog) {
+		System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
+		
+		if (Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
 			currentScene.currentText++;
+		}
+		
+		if (currentScene.currentText == currentScene.sceneDialog.length) {
+			Dialog.showDialog = false;
 		}
 	}
 
@@ -339,5 +360,30 @@ public class EscapeRoomieGame implements ActionListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int[][]	topMap = activePanel.targetMap.mapTopLayer;
+		
+		if (e.getKeyChar() == 'e' ) {
+			Interactable target = interactables.get(player.canInteractWith(topMap));
+			target.interact();
+		}
+
+		
+		activePanel.repaint();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
