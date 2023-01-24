@@ -1,9 +1,11 @@
 package main;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +36,15 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static DrawingPanel activePanel;
 	static Dialog currentScene;
 
+	//panel size is 18 by 12 squares
+	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
+	static final int PANH = 12 * 64;
+
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
-	// Create player object
+	// Create player object on tile (8, 5)
 	static Player player = new Player(9*64, 5*64);
 
 	// Run program
@@ -48,7 +56,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			}
 		});
 	}
-	
+
 	Timer mainTimer = new Timer(10, this);
 	BetterKeyListener bKeyL = new BetterKeyListener();
 
@@ -78,7 +86,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		window.addMouseListener(this);
 		window.setVisible(true);
 	}
-	
+
 	// Declare all textures
 	void addTextures() { 
 		textures.add(null);	//0
@@ -95,9 +103,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		textures.add(Texture.topRightInCornerWall); //11
 		textures.add(Texture.botLeftInCornerWall);  //12
 		textures.add(Texture.botRightInCornerWall); //13
-		
+
 	}
-	
+
 	// Declare all interactables
 	void addInteractables() {
 		interactables.add(null);	//0
@@ -106,7 +114,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.doorDown);		//3
 		interactables.add(Interactable.doorLeft);		//4
 		interactables.add(Interactable.wallLight); 	//5
-
+		
 		interactables.add(Interactable.burger); //6
 		interactables.add(Interactable.milk); //7
 		interactables.add(Interactable.flashlight); //8
@@ -121,8 +129,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// DrawingPanel class
 	private class DrawingPanel extends JPanel {
 		// Game dimensions
-		static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
-		static final int PANH = 12 * 64;
+
 		Font pixeloidSans;
 		Font dialogFont, promptFont;
 
@@ -145,13 +152,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			this.setBackground(Color.BLACK);
 			this.addKeyListener(bKeyL);
 			this.setFocusable(true);
-			
+
 			// Create Font for dialogs
 			try {
 				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
 				dialogFont = pixeloidSans.deriveFont(20f);
 				promptFont = pixeloidSans.deriveFont(10f);
-				
 			} catch (FontFormatException e) {
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
@@ -169,18 +175,18 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			g2 = (Graphics2D) g;
 			//antialiasing:
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
+
 			//draw map
 			loadMap();
 			
-			//draw shop icon in shop:
+			//draw shop icon in shop: (large shop image on floor)
 			if (activePanel.equals(shopPanel)) {
 				g2.drawImage(Texture.shopIcon.img, 64*7, 64*4, null);			
 			}
 			
 			//draw interactables
 			loadInteractables();
-			
+
 			//draw player
 			loadPlayer();
 			
@@ -198,6 +204,18 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
 				drawDialog();
 			}
+
+			//draw vision restrictions
+			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
+			int radius = 80;
+			int x = player.x+player.width/2 - radius;
+			int y = player.y+player.height/2 - radius;
+			// Rectangle inner = new Rectangle(x, y, 200, 200);
+			Ellipse2D.Double inner = new Ellipse2D.Double(x,y,2*radius,2*radius);	
+			outer.subtract(new Area(inner));
+
+			g2.setColor(Color.BLACK);
+			g2.fill(outer);
 		}
 
 
@@ -207,24 +225,24 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			int yPos;
 
 			Texture texture;
-			
+
 			// Iterate through and draw each element in the ground layer of the map
 			for (int y = 0; y < targetMap.mapGround.length; y++) {
 				for (int x = 0; x < targetMap.mapGround[0].length; x++) {
 					// Declare the x and y coordinate of where the image will be drawn
 					xPos = PANW/targetMap.mapGround[0].length * x;
 					yPos = PANH/targetMap.mapGround.length * y;			
-					
+
 					if (targetMap.mapGround[y][x] != 0) {
 						// Determine which texture is being referenced
 						texture = textures.get(targetMap.mapGround[y][x]);
-						
+
 						// Draw a rotated image
 						if(texture.rotation != 0.0) {
 							g2.rotate(texture.rotation, xPos + texture.height/2, yPos + texture.height/2);
 							g2.drawImage(texture.img, xPos, yPos, null);
 							g2.rotate(-texture.rotation, xPos + texture.width/2, yPos + texture.height/2);
-							
+
 						}
 						// Draw a normal image
 						else g2.drawImage(texture.img, xPos, yPos, null);
@@ -232,13 +250,13 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				}
 			}
 		}
-			
+
 		void loadInteractables() {
 			int xPos;
 			int yPos;
-			
+
 			Interactable interactable;
-			
+
 			// Iterate through and draw each element in the second layer of the map
 			for (int y = 0; y < targetMap.mapTopLayer.length; y++) {
 				for (int x = 0; x < targetMap.mapTopLayer[0].length; x++) {
@@ -271,23 +289,24 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			g2.drawImage(player.image, player.x, player.y, null);
 			if (player.health > 50) g2.setColor(Color.GREEN);
 			g2.fillRect(player.x, player.y - 5, player.health*player.width/100, 3);
+
 			if (player.showHitBox) {
 				g2.drawRect(player.x, player.y, player.width, player.height);
 			}
 		}
-		
+
 		// Draw dialog
-		void drawDialog() {
+		void drawDialog(Graphics2D g2) {
 			String current = currentScene.sceneDialog[currentScene.currentText];
 			String[] dialog = current.split("#", 0);
-			
+
 			for (int i = 0; i < dialog.length; i++) {
 				g2.drawString(dialog[i], currentScene.x + 45, currentScene.y + 60 + (i * 30));
 			}
 		}
 	}
 
-	
+
 	/*** for mainTimer ***/
 	@Override
 	public void actionPerformed(ActionEvent e) {	
@@ -299,6 +318,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
 		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
 		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
+
 		activePanel.repaint();
 	};
 
@@ -311,9 +331,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int xCor, yCor;
+    // Get coordinates of click
 		xCor = e.getX();
 		yCor = e.getY();
-		System.out.println(xCor + ", " + yCor + "\n");
+		System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
 		
 		if (Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
 			currentScene.currentText++;
