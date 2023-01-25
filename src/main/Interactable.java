@@ -27,6 +27,7 @@ public class Interactable extends Rectangle{
 		this.rotation = Math.toRadians(rotation);
 	}
 	
+	// Import images to display on map 
 	void setImageFile(String fileName) {
 		// Set interactable image
 		try {
@@ -66,6 +67,8 @@ public class Interactable extends Rectangle{
 	static Interactable alphabet = new Interactable("alphabet.png"); //puzzle #8
 	static Interactable openBook = new Interactable("openBook.png"); //puzzle #9
 	static Interactable flower = new Interactable("flower.png"); //puzzle #10
+
+	// static Interactable flower = new Interactable("flower.png", "...png"); //puzzle #10
 
 	//introduction item
 	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
