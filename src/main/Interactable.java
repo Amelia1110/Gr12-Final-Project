@@ -62,10 +62,10 @@ public class Interactable extends Rectangle{
 	static Interactable rubikCube = new Interactable("rubikCube.png"); //puzzle #3
 	static Interactable musicNote = new Question("musicNote.png", "musicNotePuzzle.png"); //puzzle #4
 	static Interactable clock = new Question("clock.png", "clockPuzzle.png"); //puzzle #5
-	static Interactable jewelry = new Interactable("jewelry.png"); //puzzle #6
-	static Interactable mathNote = new Interactable("mathNote.png"); //puzzle #7
-	static Interactable alphabet = new Interactable("alphabet.png"); //puzzle #8
-	static Interactable openBook = new Interactable("openBook.png"); //puzzle #9
+	static Interactable jewelry = new Question("jewelry.png", "jewelryPuzzle.png"); //puzzle #6
+	static Interactable mathNote = new Question("mathNote.png", "mathNotePuzzle.png"); //puzzle #7
+	static Interactable alphabet = new Question("alphabet.png", "alphabetPuzzle.png"); //puzzle #8
+	static Interactable openBook = new Question("openBook.png", "openBookPuzzle.png"); //puzzle #9
 	static Interactable flower = new Interactable("flower.png"); //puzzle #10
 
 	// Static Interactable flower = new Interactable("flower.png", "...png"); //puzzle #10
