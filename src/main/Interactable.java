@@ -50,26 +50,28 @@ public class Interactable extends Rectangle{
 	static Interactable doorLeft = new Interactable("door.png", 270);
 	static Interactable wallLight = new Interactable("wallLight.png");
 
-	//these are items up to purchase in shop 
+	// These are items up to purchase in shop 
 	static Interactable burger = new Interactable("burger.png"); //gives player 40 health points
 	static Interactable milk = new Interactable("milk.png"); //gives player 20 health points
 	static Interactable flashlight = new Interactable("flashlight.png"); //gives player more map visibility
 	static Interactable hint = new Interactable("hint.png"); //gives player an extra hint
 	
-	//puzzle items in game
-	static Interactable closedBook = new Interactable("closedBook.png"); //puzzle #1
-	static Interactable paper = new Interactable("paper.png"); //puzzle #2
+	// Puzzle items in game
+	static Interactable closedBook = new Question("closedBook.png", "closedBookPuzzle.png"); //puzzle #1
+	static Interactable paper = new Question("paper.png", "paperPuzzle.png"); //puzzle #2
 	static Interactable rubikCube = new Interactable("rubikCube.png"); //puzzle #3
-	static Interactable musicNote = new Interactable("musicNote.png"); //puzzle #4
-	static Interactable clock = new Interactable("clock.png"); //puzzle #5
+	static Interactable musicNote = new Question("musicNote.png", "musicNotePuzzle.png"); //puzzle #4
+	static Interactable clock = new Question("clock.png", "clockPuzzle.png"); //puzzle #5
 	static Interactable jewelry = new Interactable("jewelry.png"); //puzzle #6
 	static Interactable mathNote = new Interactable("mathNote.png"); //puzzle #7
 	static Interactable alphabet = new Interactable("alphabet.png"); //puzzle #8
 	static Interactable openBook = new Interactable("openBook.png"); //puzzle #9
 	static Interactable flower = new Interactable("flower.png"); //puzzle #10
 
-	// static Interactable flower = new Interactable("flower.png", "...png"); //puzzle #10
+	// Static Interactable flower = new Interactable("flower.png", "...png"); //puzzle #10
 
-	//introduction item
+	// Introduction item
 	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
+	
+	// Puzzle displays 
 }

@@ -42,11 +42,12 @@ import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
 	// Panels for all maps
-	static DrawingPanel introPanel, room1Panel, shopPanel;
+	static DrawingPanel introPanel, room1Panel, room2Panel, room3Panel, room4Panel, room5Panel, shopPanel;
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
-	static Dialog currentScene;
+	static Dialog currentScene = Dialog.introScene1;
+	static Question currentPuzzle;
 
 	//panel size is 18 by 12 squares
 	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
@@ -57,7 +58,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object on tile (8, 5)
-	static Player player = new Player(9*64, 5*64);
+	static Player player = new Player(8*64, 5*64);
 
 	// Run program
 	public static void main(String[] args) {
@@ -78,6 +79,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		addInteractables();
 		introPanel = new DrawingPanel(Map.introRoom);
 		room1Panel = new DrawingPanel(Map.room1);
+		room2Panel = new DrawingPanel(Map.room2);
+		room3Panel = new DrawingPanel(Map.room3);
+		room4Panel = new DrawingPanel(Map.room4);
+		room5Panel = new DrawingPanel(Map.room5);
 		shopPanel = new DrawingPanel(Map.shopRoom);
 		setupJFrame();
 		mainTimer.start();
@@ -140,7 +145,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.jewelry);   //15
 		interactables.add(Interactable.mathNote);  //16
 		interactables.add(Interactable.alphabet);  //17	
-		interactables.add(Interactable.closedBook);//18
+		interactables.add(Interactable.openBook);//18
 		interactables.add(Interactable.flower);    //19
 		
 		interactables.add(Interactable.introNote); //20
@@ -220,7 +225,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
-			int radius = 80;
+			int radius = 2000;
 			int x = player.x+player.width/2 - radius;
 			int y = player.y+player.height/2 - radius;
 			// Rectangle inner = new Rectangle(x, y, 200, 200);
@@ -236,6 +241,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.setFont(dialogFont);
 				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
 				drawDialog();
+			}
+			
+			// draw puzzle image if the boolean puzzleShowing is set to true
+			if (Question.puzzleShowing) {
+				g2.drawImage(currentPuzzle.puzzleImage, 0, 0, null); //FIXME
 			}
 		}
 
@@ -364,6 +374,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		if (currentScene.currentText == currentScene.sceneDialog.length) {
 			Dialog.showDialog = false;
 		}
+		
+		if (Question.puzzleShowing) Question.puzzleShowing = false;
 	}
 
 	@Override
@@ -395,9 +407,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		
 		if (e.getKeyChar() == 'e') {
 			Interactable target = interactables.get(player.canInteractWith(topMap));
-			target.interact();
+			if (target != null) target.interact(); // only shows interaction results if player is interacting an interactable object
 		}
-
 		
 		activePanel.repaint();
 	}
