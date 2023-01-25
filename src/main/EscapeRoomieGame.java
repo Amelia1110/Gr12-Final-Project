@@ -1,5 +1,17 @@
 package main;
 
+//by Amelia Song, Alex You, and Alex Cai
+//January 24, 2023
+//final project, ICS4U
+
+//this is a 2.5-dimension escape room, demonstrating what the three of us have learned throughout the entire course as well as concepts
+//we have learned ourselves from researches in our free time. The purpose of the game is simple, the player has to solve a series of
+//puzzles, riddles, etc to gather enough clues to gain freedom ultimately. The player first begins in an introductory room, where
+//a note lies on the floor. As soon as the user interacts with the note, a storyline pops up for them. Once the user finishes the 
+//introduction, they find themselves in the real game. Some puzzles lead to other puzzles and combining the answers they unlock access
+//to the rest of the rooms, while others -- like the ones in the beginning stages of the game -- are easier and they directly grant
+//user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!  
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -111,19 +123,27 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(null);	//0
 		interactables.add(Interactable.doorUp);		//1
 		interactables.add(Interactable.doorRight); 	//2
-		interactables.add(Interactable.doorDown);		//3
-		interactables.add(Interactable.doorLeft);		//4
+		interactables.add(Interactable.doorDown);	//3
+		interactables.add(Interactable.doorLeft);	//4
 		interactables.add(Interactable.wallLight); 	//5
 		
-		interactables.add(Interactable.burger); //6
-		interactables.add(Interactable.milk); //7
+		interactables.add(Interactable.burger); 	//6
+		interactables.add(Interactable.milk); 		//7
 		interactables.add(Interactable.flashlight); //8
-		interactables.add(Interactable.hint); //9
+		interactables.add(Interactable.hint); 		//9
 		
 		interactables.add(Interactable.closedBook);//10
-		interactables.add(Interactable.openBook); //11
+		interactables.add(Interactable.paper);	   //11
+		interactables.add(Interactable.rubikCube); //12
+		interactables.add(Interactable.musicNote); //13
+		interactables.add(Interactable.clock);	   //14
+		interactables.add(Interactable.jewelry);   //15
+		interactables.add(Interactable.mathNote);  //16
+		interactables.add(Interactable.alphabet);  //17	
+		interactables.add(Interactable.closedBook);//18
+		interactables.add(Interactable.flower);    //19
 		
-		interactables.add(Interactable.introNote); //12
+		interactables.add(Interactable.introNote); //20
 	}
 
 	// DrawingPanel class
@@ -373,7 +393,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	public void keyPressed(KeyEvent e) {
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 		
-		if (e.getKeyChar() == 'e' ) {
+		if (e.getKeyChar() == 'e') {
 			Interactable target = interactables.get(player.canInteractWith(topMap));
 			target.interact();
 		}
