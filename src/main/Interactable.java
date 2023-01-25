@@ -68,10 +68,10 @@ public class Interactable extends Rectangle{
 	static Interactable openBook = new Question("openBook.png", "openBookPuzzle.png"); //puzzle #9
 	static Interactable flower = new Interactable("flower.png"); //puzzle #10
 
-	// Static Interactable flower = new Interactable("flower.png", "...png"); //puzzle #10
-
 	// Introduction item
 	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
 	
-	// Puzzle displays 
+	// Shop Icon 
+	static Interactable shop = new Shop("shopIcon.png"); 
+	
 }

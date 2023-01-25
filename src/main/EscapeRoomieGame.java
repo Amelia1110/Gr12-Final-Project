@@ -36,16 +36,20 @@ import java.awt.FontFormatException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
+	// JFrame
+	static JFrame window;
+	
 	// Panels for all maps
 	static DrawingPanel introPanel, room1Panel, room2Panel, room3Panel, room4Panel, room5Panel, shopPanel;
 	
 	// Keeps track of which panel is currently being displayed
-	static DrawingPanel activePanel;
+	static DrawingPanel activePanel, lastPanel;
 	static Dialog currentScene = Dialog.introScene1;
 	static Question currentPuzzle;
 
@@ -58,7 +62,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object on tile (8, 5)
-	static Player player = new Player(8*64, 5*64);
+	static Player player = new Player(7*64, 4*64);
+	
+	//checking if shop is showing
+	static boolean shopShowing = false;
 
 	// Run program
 	public static void main(String[] args) {
@@ -91,12 +98,13 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Setup window
 	void setupJFrame() {
 		// Set parameters
-		JFrame window = new JFrame("Escape Room");
+		window = new JFrame("Escape Room");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		instructionMessage();
+		
 		// Render window
-		window.add(introPanel);
-		activePanel = introPanel;
+		window.add(shopPanel);
+		activePanel = shopPanel;
 		activePanel.addKeyListener(this);
 		window.pack();
 		window.setLocationRelativeTo(null);
@@ -149,8 +157,20 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.flower);    //19
 		
 		interactables.add(Interactable.introNote); //20
+		interactables.add(Interactable.shop); //21
 	}
 
+	void instructionMessage() {
+		JOptionPane.showMessageDialog(null, "1. Press ‘W’ to move up\n"
+				+ "2. Press ‘S’ to move down\n"
+				+ "3. Press ‘A’ to move left\n"
+				+ "4. Press ‘D’ to move right\n"
+				+ "5. Press ‘E’ to interact with an item\n"
+				+ "6. Press ‘Q’ to open/close shop\n"
+				+ "7. Press ‘X’ to view this instruction page again\n"
+				+ "8. Left click mouse to move forward/close an interaction",
+				"Instructions", JOptionPane.INFORMATION_MESSAGE);
+	}
 	// DrawingPanel class
 	private class DrawingPanel extends JPanel {
 		// Game dimensions
@@ -206,7 +226,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			
 			//draw shop icon in shop: (large shop image on floor)
 			if (activePanel.equals(shopPanel)) {
-				g2.drawImage(Texture.shopIcon.img, 64*7, 64*4, null);			
+				g2.drawImage(Texture.shopImage.img, 64*7, 64*4, null);			
 			}
 			
 			//draw interactables
@@ -222,10 +242,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.setFont(promptFont);
 				g2.drawString("E to Interact", player.x, player.y - 10);
 			}
+			else g2.drawString("Health:" + player.health, player.x - 1, player.y - 10);
 			
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
-			int radius = 2000;
+			int radius = 80;
 			int x = player.x+player.width/2 - radius;
 			int y = player.y+player.height/2 - radius;
 			// Rectangle inner = new Rectangle(x, y, 200, 200);
@@ -245,7 +266,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			
 			// draw puzzle image if the boolean puzzleShowing is set to true
 			if (Question.puzzleShowing) {
-				g2.drawImage(currentPuzzle.puzzleImage, 0, 0, null); //FIXME
+				g2.drawImage(currentPuzzle.puzzleImage, currentPuzzle.x, currentPuzzle.y, null); 
 			}
 		}
 
@@ -343,13 +364,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	public void actionPerformed(ActionEvent e) {	
 		int[][] groundMap = activePanel.targetMap.mapGround;
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
-		
-		//move player (assuming that a key has been pressed)
-		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
-		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
-		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
-		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
 
+		if (!Question.puzzleShowing) {
+			//move player (assuming that a key has been pressed)
+			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
+			if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
+			if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
+			if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
+		}
 		activePanel.repaint();
 	};
 
@@ -408,6 +430,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		if (e.getKeyChar() == 'e') {
 			Interactable target = interactables.get(player.canInteractWith(topMap));
 			if (target != null) target.interact(); // only shows interaction results if player is interacting an interactable object
+		}
+		
+		if (e.getKeyChar() == 'x') {
+			instructionMessage();
+		}
+		
+		if (e.getKeyChar() == 'q' && activePanel.equals(shopPanel)) {
+			Shop.exit();
 		}
 		
 		activePanel.repaint();
