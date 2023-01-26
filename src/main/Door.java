@@ -1,7 +1,11 @@
 package main;
 
+import java.awt.Font;
+
+import javax.swing.JTextField;
+
 public class Door extends Interactable {
-	static boolean showTextField = false;	// Track when textfield should be drawn
+	static boolean showTextField = false;
 	private String correctSolution;
 	String userSolution;
 	boolean unlocked = false;
@@ -17,7 +21,10 @@ public class Door extends Interactable {
 	
 	@Override
 	void interact() {
+		showTextField = true;
+		System.out.println(showTextField);
+		
 		// Mark puzzle as solved if user gets correct answer // TODO move this to check after typing something
-		if (userSolution.toLowerCase().equals(correctSolution)) unlocked = true;
+		//if (userSolution.toLowerCase().equals(correctSolution)) unlocked = true;
 	}
 }

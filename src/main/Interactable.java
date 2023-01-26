@@ -63,4 +63,6 @@ public class Interactable extends Rectangle{
 
 	//introduction item
 	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
+	
+	static Interactable introToRoom1 = new Door("answer", 0);
 }

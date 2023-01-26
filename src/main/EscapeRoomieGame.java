@@ -13,6 +13,7 @@ package main;
 //user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!  
 
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -42,8 +43,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
+	static JFrame window;
+	
 	// Panels for all maps
 	static DrawingPanel introPanel, room1Panel, shopPanel;
+	
+	// Where user enters solutions
+	static JTextField doorLock;
 	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
@@ -59,6 +65,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 
 	// Create player object on tile (8, 5)
 	static Player player = new Player(9*64, 5*64);
+	
+	// Game font
+	static Font pixeloidSans;
 
 	// Run program
 	public static void main(String[] args) {
@@ -87,9 +96,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Setup window
 	void setupJFrame() {
 		// Set parameters
-		JFrame window = new JFrame("Escape Room");
+		window = new JFrame("Escape Room");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		// Render window
 		window.add(introPanel);
 		activePanel = introPanel;
@@ -145,14 +154,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.flower);    //19
 		
 		interactables.add(Interactable.introNote); //20
+		
+		interactables.add(Interactable.introToRoom1); //21
 	}
 
 	// DrawingPanel class
 	private class DrawingPanel extends JPanel {
-		// Game dimensions
-
-		Font pixeloidSans;
-		Font dialogFont, promptFont;
+		// Fonts
+		Font dialogFont, promptFont, lockFont;
 
 		Graphics2D g2;
 
@@ -173,12 +182,16 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			this.setBackground(Color.BLACK);
 			this.addKeyListener(bKeyL);
 			this.setFocusable(true);
+			
+			// Text field for door/locks
+			doorLock = new JTextField(" Code to Unlock... ");
 
 			// Create Font for dialogs
 			try {
 				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
 				dialogFont = pixeloidSans.deriveFont(20f);
 				promptFont = pixeloidSans.deriveFont(10f);
+				lockFont = pixeloidSans.deriveFont(100f);
 			} catch (FontFormatException e) {
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
@@ -186,6 +199,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
 			}
+			
+			// Set font of text fields
+			doorLock.setFont(lockFont);
 		}
 
 		// Draw components
@@ -237,6 +253,13 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.setFont(dialogFont);
 				g2.drawImage(Dialog.img, currentScene.x, currentScene.y, null);
 				drawDialog();
+			}
+			
+			// Display solution input
+			if (Door.showTextField) {
+				this.add(doorLock);
+				System.out.println("Hello");
+				Door.showTextField = false;
 			}
 		}
 
@@ -326,6 +349,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.drawString(dialog[i], currentScene.x + 45, currentScene.y + 60 + (i * 30));
 			}
 		}
+		
+		/*void showTextField() {
+			this.add(doorLock);
+		}*/
 	}
 
 
@@ -396,9 +423,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		
 		if (e.getKeyChar() == 'e') {
 			Interactable target = interactables.get(player.canInteractWith(topMap));
-			target.interact();
+			if (target != null) target.interact();
 		}
-
 		
 		activePanel.repaint();
 	}
