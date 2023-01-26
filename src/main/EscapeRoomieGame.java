@@ -13,6 +13,7 @@ package main;
 //user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!  
 
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -31,6 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.Font;
 import java.awt.FontFormatException;
 
@@ -38,6 +40,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -48,10 +51,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Panels for all maps
 	static DrawingPanel introPanel, room1Panel, room2Panel, room3Panel, room4Panel, room5Panel, shopPanel;
 	
-	// Keeps track of which panel is currently being displayed
+	// Keeps track of which panel and what objects are currently being displayed
 	static DrawingPanel activePanel, lastPanel;
-	static Dialog currentScene = Dialog.introScene1;
+	static Dialog currentScene;
 	static Question currentPuzzle;
+	static Door currentDoor;
 
 	// Panel size is 18 by 12 squares
 	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
@@ -63,12 +67,16 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
+	static HashMap<String, DrawingPanel> panels = new HashMap<String, DrawingPanel>();
 
 	// Create player object on tile (8, 5)
 	static Player player = new Player(9*64, 5*64);
 	
 	//checking if shop is showing
 	static boolean shopShowing = false;
+  
+	// Game font
+	static Font pixeloidSans;
 
 	// Run program
 	public static void main(String[] args) {
@@ -81,19 +89,24 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	}
 
 	Timer mainTimer = new Timer(10, this);
-	BetterKeyListener bKeyL = new BetterKeyListener();
+	static BetterKeyListener bKeyL = new BetterKeyListener();
 
 	// Constructor, create game
 	EscapeRoomieGame() {
 		addTextures();
 		addInteractables();
+    
 		introPanel = new DrawingPanel(Map.introRoom);
+		panels.put("introPanel", introPanel);
 		room1Panel = new DrawingPanel(Map.room1);
+    panels.put("room1Panel", room1Panel);
 		room2Panel = new DrawingPanel(Map.room2);
 		room3Panel = new DrawingPanel(Map.room3);
 		room4Panel = new DrawingPanel(Map.room4);
 		room5Panel = new DrawingPanel(Map.room5);
 		shopPanel = new DrawingPanel(Map.shopRoom);
+		panels.put("shopPanel", shopPanel);
+    
 		setupJFrame();
 		mainTimer.start();
 	}
@@ -160,7 +173,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.flower);    //19
 		
 		interactables.add(Interactable.introNote); //20
-		interactables.add(Interactable.shop); //21
+    interactables.add(Interactable.introToRoom1); //21
+    
+		interactables.add(Interactable.shop); //22
 	}
 
 	void instructionMessage() {
@@ -173,12 +188,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				+ "7. Left click mouse to move forward/close an interaction",
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
-	// DrawingPanel class
-	private class DrawingPanel extends JPanel {
-		// Game dimensions
+	}
 
-		Font pixeloidSans;
-		Font dialogFont, promptFont;
+	/*
+
+	// DrawingPanel class
+	class DrawingPanel extends JPanel {
+		// Fonts
+		Font dialogFont, promptFont, lockFont;
 
 		Graphics2D g2;
 
@@ -205,6 +222,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				pixeloidSans = Font.createFont(0, new File("gameFont.ttf"));
 				dialogFont = pixeloidSans.deriveFont(20f);
 				promptFont = pixeloidSans.deriveFont(10f);
+				lockFont = pixeloidSans.deriveFont(100f);
 			} catch (FontFormatException e) {
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
@@ -267,6 +285,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			// draw puzzle image if the boolean puzzleShowing is set to true
 			if (Question.puzzleShowing) {
 				g2.drawImage(currentPuzzle.puzzleImage, currentPuzzle.x, currentPuzzle.y, null); 
+
+			if (Door.typing) {
+				g2.setColor(Color.WHITE);
+				g2.setFont(lockFont);
+				g2.drawString(currentDoor.userInput, 100, PANH/2);
 			}
 		}
 
@@ -358,20 +381,21 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		}
 	}
 
-
 	/*** for mainTimer ***/
 	@Override
 	public void actionPerformed(ActionEvent e) {	
 		int[][] groundMap = activePanel.targetMap.mapGround;
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 
-		if (!Question.puzzleShowing) {
+		// Move as long as user isn't typing
+		if (!Door.typing && !Question.puzzleShowing) {
 			//move player (assuming that a key has been pressed)
 			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
 			if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
 			if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
 			if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
 		}
+
 		activePanel.repaint();
 	};
 
@@ -384,20 +408,21 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int xCor, yCor;
-    // Get coordinates of click
-		xCor = e.getX();
-		yCor = e.getY();
-		System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
 		
-		if (Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
-			currentScene.currentText++;
-		}
-		
-		if (currentScene.currentText == currentScene.sceneDialog.length) {
-			Dialog.showDialog = false;
-		}
-		
-		if (Question.puzzleShowing) Question.puzzleShowing = false;
+			// Get coordinates of click
+			xCor = e.getX();
+			yCor = e.getY();
+			System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
+			
+			if (currentScene != null && Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
+				currentScene.currentText++;
+			}
+			
+			if (currentScene != null && currentScene.currentText == currentScene.sceneDialog.length) {
+				Dialog.showDialog = false;
+			}
+      
+      if (Question.puzzleShowing) Question.puzzleShowing = false;
 	}
 
 	@Override
@@ -425,21 +450,27 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int[][]	topMap = activePanel.targetMap.mapTopLayer;
+		if (!Door.typing) {
+			int[][]	topMap = activePanel.targetMap.mapTopLayer;
+			
+			if (e.getKeyChar() == 'e') {
+				Interactable target = interactables.get(player.canInteractWith(topMap));
+				if (target != null) target.interact(); // only shows interaction results if player is interacting an interactable object
+			}
+      
+      if (e.getKeyChar() == 'x') {
+			  instructionMessage();
+	    }
 		
-		if (e.getKeyChar() == 'e') {
-			Interactable target = interactables.get(player.canInteractWith(topMap));
-			if (target != null) target.interact(); // only shows interaction results if player is interacting an interactable object
+		  /*if (e.getKeyChar() == 'q' && Shop.shopShowing) {
+			  System.out.println("Hi");
+			  Shop.exit();
+		  }*/
 		}
 		
-		if (e.getKeyChar() == 'x') {
-			instructionMessage();
+		else {
+			currentDoor.getUserInput(e.getKeyCode(), e.getKeyChar());
 		}
-		
-		/*if (e.getKeyChar() == 'q' && Shop.shopShowing) {
-			System.out.println("Hi");
-			Shop.exit();
-		}*/
 		
 		activePanel.repaint();
 	}

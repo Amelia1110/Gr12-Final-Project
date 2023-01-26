@@ -19,14 +19,6 @@ public class Interactable extends Rectangle{
 		setImageFile(fileName);
 	}
 	
-	// Create a rotated interactable with an image
-	Interactable(String fileName, int rotation) {
-		setImageFile(fileName);
-		
-		// Set rotation
-		this.rotation = Math.toRadians(rotation);
-	}
-	
 	// Import images to display on map 
 	void setImageFile(String fileName) {
 		// Set interactable image
@@ -43,17 +35,18 @@ public class Interactable extends Rectangle{
 		
 	}
 	
+	// TODO Change these all to unique door objects, remember to add rotations
 	// Create all textures (All textures should be 64 x 64)
 	static Interactable doorUp = new Interactable("door.png");
-	static Interactable doorRight = new Interactable("door.png", 90);
-	static Interactable doorDown = new Interactable("door.png", 180);
-	static Interactable doorLeft = new Interactable("door.png", 270);
+	static Interactable doorRight = new Interactable("door.png");
+	static Interactable doorDown = new Interactable("door.png");
+	static Interactable doorLeft = new Interactable("door.png");
 	static Interactable wallLight = new Interactable("wallLight.png");
 
 	// These are items up to purchase in shop 
 	static Interactable burger = new Interactable("burger.png"); //gives player 40 health points
 	static Interactable milk = new Interactable("milk.png"); //gives player 20 health points
-	static Interactable flashlight = new Interactable("flashlight.png"); //gives player more map visibility
+	static Interactable flashlight = new Interactable("flashlight.png"); //gives player more map visibilityI
 	static Interactable hint = new Interactable("hint.png"); //gives player an extra hint
 	
 	// Puzzle items in game
@@ -67,11 +60,12 @@ public class Interactable extends Rectangle{
 	static Interactable alphabet = new Question("alphabet.png", "alphabetPuzzle.png"); //puzzle #8
 	static Interactable openBook = new Question("openBook.png", "openBookPuzzle.png"); //puzzle #9
 	static Interactable flower = new Interactable("flower.png"); //puzzle #10
-
-	// Introduction item
-	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
 	
 	// Shop Icon 
 	static Interactable shop = new Shop("shopIcon.png"); 
 	
+	//introduction item
+	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
+	
+	static Interactable introToRoom1 = new Door("nightshade", 0, "room1Panel", "introPanel", 6 * 64, 7 * 64);
 }
