@@ -47,8 +47,11 @@ public class Dialog extends Rectangle {
 			"We have erased most of your memory for you, but I think you deserve to know how#you ended up in this situation:",
 			"You are enrolled at a school designed for outcasts, and the reason you are here is#because you have discovered our secret society, exclusive to only the most elite.",
 			"You either earn a spot among us and obtain eternal glory -- as well as regaining your#memories back -- by successfully completing the series of tasks...",
-			"or you DIE! Simple really, isn't it? Go on then! Start your journey by inputting the word#\"Nightshade\" somewhere!"
-			
+			"or you DIE! Simple really, isn't it? Go on then! Start your journey by inputting the word#\"Nightshade\" somewhere!",
+			"Hint: you should find a door! A door is where you input answers of puzzles you#solve.",
+			"Press 'Delete Key' to delete characters and press 'Enter Key' when you are finished#typing your answer. If your answer is wrong, you get health points taken off!",
+			"If you're right, then the door changes to unlocked!",
+			"Once you unlock a door, it will stay unlocked and you can pass freely. Goodluck!"
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);
 }
