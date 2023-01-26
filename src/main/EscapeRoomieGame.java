@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.Font;
 import java.awt.FontFormatException;
 
@@ -60,6 +61,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
+	static HashMap<String, DrawingPanel> panels = new HashMap<String, DrawingPanel>();
 
 	// Create player object on tile (8, 5)
 	static Player player = new Player(9*64, 5*64);
@@ -78,15 +80,18 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	}
 
 	Timer mainTimer = new Timer(10, this);
-	BetterKeyListener bKeyL = new BetterKeyListener();
+	static BetterKeyListener bKeyL = new BetterKeyListener();
 
 	// Constructor, create game
 	EscapeRoomieGame() {
 		addTextures();
 		addInteractables();
 		introPanel = new DrawingPanel(Map.introRoom);
+		panels.put("introPanel", introPanel);
 		room1Panel = new DrawingPanel(Map.room1);
+		panels.put("room1Panel", room1Panel);
 		shopPanel = new DrawingPanel(Map.shopRoom);
+		panels.put("shopPanel", shopPanel);
 		setupJFrame();
 		mainTimer.start();
 	}
@@ -156,8 +161,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.introToRoom1); //21
 	}
 
+	/*
 	// DrawingPanel class
-	private class DrawingPanel extends JPanel {
+	class DrawingPanel extends JPanel {
 		// Fonts
 		Font dialogFont, promptFont, lockFont;
 
@@ -341,7 +347,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			}
 		}
 	}
-
 
 	/*** for mainTimer ***/
 	@Override
