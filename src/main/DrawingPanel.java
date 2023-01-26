@@ -90,11 +90,10 @@ public class DrawingPanel extends JPanel {
 
 		// draw vision restrictions
 		Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
-		int radius = 80;
-		int x = EscapeRoomieGame.player.x + EscapeRoomieGame.player.width / 2 - radius;
-		int y = EscapeRoomieGame.player.y + EscapeRoomieGame.player.height / 2 - radius;
+		int x = EscapeRoomieGame.player.x + EscapeRoomieGame.player.width / 2 - EscapeRoomieGame.radius;
+		int y = EscapeRoomieGame.player.y + EscapeRoomieGame.player.height / 2 - EscapeRoomieGame.radius;
 		// Rectangle inner = new Rectangle(x, y, 200, 200);
-		Ellipse2D.Double inner = new Ellipse2D.Double(x, y, 2 * radius, 2 * radius);
+		Ellipse2D.Double inner = new Ellipse2D.Double(x, y, 2 * EscapeRoomieGame.radius, 2 * EscapeRoomieGame.radius);
 		outer.subtract(new Area(inner));
 
 		g2.setColor(Color.BLACK);
@@ -107,6 +106,9 @@ public class DrawingPanel extends JPanel {
 			g2.drawImage(Dialog.img, EscapeRoomieGame.currentScene.x, EscapeRoomieGame.currentScene.y, null);
 			drawDialog();
 		}
+		
+		// draw puzzle image if the boolean puzzleShowing is set to true
+		if (Question.puzzleShowing) g2.drawImage(EscapeRoomieGame.currentPuzzle.puzzleImage, EscapeRoomieGame.currentPuzzle.x, EscapeRoomieGame.currentPuzzle.y, null); 
 
 		if (Door.typing) {
 			g2.setColor(Color.WHITE);

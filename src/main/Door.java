@@ -55,9 +55,9 @@ public class Door extends Interactable {
 	
 	// TODO restrict so string can't be past certain size
 	void getUserInput(int keyCode, char keyChar) {
-		// Adds to userInput string the user types a number, letter, or space
+		// Adds to userInput string the user types a number or letter
 		if (userInput.length() <= 11) {
-			if (((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || keyCode == 32)) {
+			if (((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90))) {
 				userInput += keyChar;
 			}
 		}
@@ -72,7 +72,7 @@ public class Door extends Interactable {
 	}
 	
 	void checkSolution() {
-		if (userInput.equals(correctSolution)) {
+		if (userInput.toLowerCase().equals(correctSolution)) {
 			unlocked = true;
 		}
 	}

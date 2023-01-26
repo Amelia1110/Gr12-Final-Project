@@ -62,7 +62,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static final int PANH = 12 * 64;
 	
 	// Player visibility radius 
-	static int radius = 80;
+	static int radius = 1000; // TODO change this back :)
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
@@ -97,18 +97,25 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		addInteractables();
     
 		introPanel = new DrawingPanel(Map.introRoom);
+		introPanel.addKeyListener(this);
 		panels.put("introPanel", introPanel);
 		room1Panel = new DrawingPanel(Map.room1);
+		room1Panel.addKeyListener(this);
 		panels.put("room1Panel", room1Panel);
 		room2Panel = new DrawingPanel(Map.room2);
+		room2Panel.addKeyListener(this);
 		panels.put("room2Panel", room2Panel);
 		room3Panel = new DrawingPanel(Map.room3);
+		room3Panel.addKeyListener(this);
 		panels.put("room3Panel", room3Panel);
 		room4Panel = new DrawingPanel(Map.room4);
+		room4Panel.addKeyListener(this);
 		panels.put("room4Panel", room4Panel);
 		room5Panel = new DrawingPanel(Map.room5);
+		room5Panel.addKeyListener(this);
 		panels.put("room5Panel", room5Panel);
 		shopPanel = new DrawingPanel(Map.shopRoom);
+		shopPanel.addKeyListener(this);
 		panels.put("shopPanel", shopPanel);
     
 		setupJFrame();
@@ -125,13 +132,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		// Render window
 		window.add(introPanel);
 		activePanel = introPanel;
-		activePanel.addKeyListener(this);
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.addMouseListener(this);
 		window.setVisible(true);
 	}
-
+	
 	// Declare all textures
 	void addTextures() { 
 		textures.add(null);	//0
@@ -287,8 +293,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			}
 			
 			// draw puzzle image if the boolean puzzleShowing is set to true
-			if (Question.puzzleShowing) {
-				g2.drawImage(currentPuzzle.puzzleImage, currentPuzzle.x, currentPuzzle.y, null); 
+			if (Question.puzzleShowing) g2.drawImage(currentPuzzle.puzzleImage, currentPuzzle.x, currentPuzzle.y, null);
 
 			if (Door.typing) {
 				g2.setColor(Color.WHITE);
@@ -426,7 +431,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				Dialog.showDialog = false;
 			}
       
-      if (Question.puzzleShowing) Question.puzzleShowing = false;
+			if (Question.puzzleShowing) Question.puzzleShowing = false;
 	}
 
 	@Override
@@ -459,12 +464,17 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			
 			if (e.getKeyChar() == 'e') {
 				Interactable target = interactables.get(player.canInteractWith(topMap));
-				if (target != null) target.interact(); // only shows interaction results if player is interacting an interactable object
+				System.out.println(target);
+				
+				if (target != null) {
+					System.out.println("interact");
+					target.interact(); // only shows interaction results if player is interacting an interactable object
+				}
 			}
       
-      if (e.getKeyChar() == 'x') {
+			if (e.getKeyChar() == 'x') {
 			  instructionMessage();
-	    }
+			}
 		
 		  /*if (e.getKeyChar() == 'q' && Shop.shopShowing) {
 			  System.out.println("Hi");

@@ -32,6 +32,7 @@ public class Question extends Interactable {
 
 	@Override
 	void interact() {
+		System.out.println("Showing Puzzle");
 		puzzleShowing = true;	
 		EscapeRoomieGame.currentPuzzle = this;
 	}
