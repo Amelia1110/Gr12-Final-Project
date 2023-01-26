@@ -65,7 +65,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static final int PANH = 12 * 64;
 	
 	// Player visibility radius 
-	static int radius = 1000; // TODO change this back :)
+	static int radius = 80; // TODO change this back :)
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
