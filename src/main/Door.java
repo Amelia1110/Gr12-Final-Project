@@ -77,5 +77,8 @@ public class Door extends Interactable {
 			setImageFile("unlockedDoor.png");
 			unlocked = true;
 		}
+		else {
+			EscapeRoomieGame.player.health -= 10;
+		}
 	}
 }
