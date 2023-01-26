@@ -160,10 +160,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Declare all interactables
 	void addInteractables() {
 		interactables.add(null);	//0
-		interactables.add(Interactable.doorUp);		//1
-		interactables.add(Interactable.doorRight); 	//2
-		interactables.add(Interactable.doorDown);	//3
-		interactables.add(Interactable.doorLeft);	//4
+		interactables.add(Interactable.room1ToRoom2);//1
+		interactables.add(Interactable.room1ToRoom3);//2
+		interactables.add(Interactable.room1ToRoom4);//3
+		interactables.add(Interactable.room1ToRoom5);//4
+		
 		interactables.add(Interactable.wallLight); 	//5
 		
 		interactables.add(Interactable.burger); 	//6
@@ -185,8 +186,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.introNote); //20
 		
 		interactables.add(Interactable.introToRoom1); //21
+		interactables.add(Interactable.room2ToRoom1); //22
+		interactables.add(Interactable.room3ToRoom1); //23
+		interactables.add(Interactable.room4ToRoom1); //24
+		interactables.add(Interactable.room5ToRoom1); //25
     
-		interactables.add(Interactable.shop); //22
+		interactables.add(Interactable.shop); //26
 	}
 
 	void instructionMessage() {
