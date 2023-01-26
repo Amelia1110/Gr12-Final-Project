@@ -55,6 +55,13 @@ public class Dialog extends Rectangle {
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);
 	
+	private static final String[] rubikCubeText = {
+			"Aw look at you! You've come this far already!",
+			"You have certainly exceeded our expectations. Thus, as a reward for you, we have a#treat!",
+			"The answer for the cube is \"127\", enjoy the freebie :)"
+	};
+	static Dialog cubeText = new Dialog(rubikCubeText);
+  
 	// Dialogs for door instructions
 	private static final String[] dialogRoom1To2 = {"Enter the hidden message from the paper nearby"};
 	static Dialog dialog1To2 = new Dialog(dialogRoom1To2);

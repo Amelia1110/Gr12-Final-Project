@@ -46,7 +46,7 @@ public class Interactable extends Rectangle{
 	// Puzzle items in game
 	static Interactable closedBook = new Question("closedBook.png", "closedBookPuzzle.png"); //puzzle #1
 	static Interactable paper = new Question("paper.png", "paperPuzzle.png"); //puzzle #2
-	static Interactable rubikCube = new Interactable("rubikCube.png"); //puzzle #3
+	static Interactable rubikCube = new Note("rubikCube.png",(Dialog.cubeText)); //puzzle #3
 	static Interactable musicNote = new Question("musicNote.png", "musicNotePuzzle.png"); //puzzle #4
 	static Interactable clock = new Question("clock.png", "clockPuzzle.png"); //puzzle #5
 	static Interactable jewelry = new Question("jewelry.png", "jewelryPuzzle.png"); //puzzle #6
