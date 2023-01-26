@@ -34,13 +34,7 @@ public class Interactable extends Rectangle{
 	void interact() {
 		
 	}
-	
-	// TODO Change these all to unique door objects, remember to add rotations
-	// Create all textures (All textures should be 64 x 64)
-	static Interactable doorUp = new Interactable("door.png");
-	static Interactable doorRight = new Interactable("door.png");
-	static Interactable doorDown = new Interactable("door.png");
-	static Interactable doorLeft = new Interactable("door.png");
+
 	static Interactable wallLight = new Interactable("wallLight.png");
 
 	// These are items up to purchase in shop 
@@ -59,7 +53,7 @@ public class Interactable extends Rectangle{
 	static Interactable mathNote = new Question("mathNote.png", "mathNotePuzzle.png"); //puzzle #7
 	static Interactable alphabet = new Question("alphabet.png", "alphabetPuzzle.png"); //puzzle #8
 	static Interactable openBook = new Question("openBook.png", "openBookPuzzle.png"); //puzzle #9
-	static Interactable flower = new Interactable("flower.png"); //puzzle #10
+	static Interactable flower = new Flower();
 	
 	// Shop Icon 
 	static Interactable shop = new Shop("shopIcon.png"); 

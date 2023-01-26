@@ -47,6 +47,8 @@ import javax.swing.Timer;
 public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
 	// True when game is running
 	static boolean gameRunning = true;
+	// Show flower when last door is unlocked
+	static boolean showFlower = false;
 	
 	// JFrame
 	static JFrame window;
@@ -287,18 +289,13 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				
 				if (target != null) {
 					System.out.println("interact");
-					target.interact(); // only shows interaction results if player is interacting an interactable object
+					target.interact(); // only shows interaction results if player is interacting an interactable objects
 				}
 			}
       
 			if (e.getKeyChar() == 'x') {
 			  instructionMessage();
 			}
-		
-		  /*if (e.getKeyChar() == 'q' && Shop.shopShowing) {
-			  System.out.println("Hi");
-			  Shop.exit();
-		  }*/
 		}
 		
 		else {

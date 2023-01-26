@@ -19,8 +19,8 @@ public class DrawingPanel extends JPanel {
 	// Fonts
 	// Game font
 	static Font pixeloidSans;
-
-	Font dialogFont, promptFont, lockFont, gameOverFont;
+	
+	Font dialogFont, promptFont, lockFont, midFont, hugeFont;
 
 	Graphics2D g2;
 
@@ -48,7 +48,8 @@ public class DrawingPanel extends JPanel {
 			dialogFont = pixeloidSans.deriveFont(20f);
 			promptFont = pixeloidSans.deriveFont(10f);
 			lockFont = pixeloidSans.deriveFont(100f);
-			gameOverFont = pixeloidSans.deriveFont(250f);
+			midFont = pixeloidSans.deriveFont(150f);
+			hugeFont = pixeloidSans.deriveFont(250f);
 		} catch (FontFormatException e) {
 			System.out.println("Warning: font failed to load");
 			e.printStackTrace();
@@ -128,9 +129,21 @@ public class DrawingPanel extends JPanel {
 		// Draw when user dies
 		if (!EscapeRoomieGame.gameRunning) {
 			g2.setColor(Color.WHITE);
-			g2.setFont(gameOverFont);
-			g2.drawString("GAME", 240, 375);
-			g2.drawString("OVER", 240, 625);
+			
+			
+			// Displays if user beats the game
+			if (Flower.gamePassed = true) {
+				g2.setFont(midFont);
+				g2.drawString("CONGRATS", 180, 430);
+				g2.setFont(dialogFont);
+				g2.drawString("Since you touched the flower, you die anyways :)", 180, 500);
+				
+			}
+			else {
+				g2.setFont(hugeFont);
+				g2.drawString("GAME", 240, 375);
+				g2.drawString("OVER", 240, 625);
+			}
 		}
 	}
 
@@ -184,19 +197,27 @@ public class DrawingPanel extends JPanel {
 					// Determine which interactable is being referenced
 					interactable = EscapeRoomieGame.interactables.get(targetMap.mapTopLayer[y][x]);
 
-					// Draw a rotated image
-					if (interactable.rotation != 0.0) {
-						g2.rotate(interactable.rotation, xPos + interactable.width / 2, yPos + interactable.height / 2);
-						g2.drawImage(interactable.img, xPos, yPos, null);
-						g2.rotate(-interactable.rotation, xPos + interactable.width / 2,
-								yPos + interactable.height / 2);
+					// Draw everything but flower
+					if (targetMap.mapTopLayer[y][x] != 19) {
+						// Draw a rotated image
+						if (interactable.rotation != 0.0) {
+							g2.rotate(interactable.rotation, xPos + interactable.width / 2, yPos + interactable.height / 2);
+							g2.drawImage(interactable.img, xPos, yPos, null);
+							g2.rotate(-interactable.rotation, xPos + interactable.width / 2,
+									yPos + interactable.height / 2);
 
+						}
+
+						// Draw a normal image
+						else g2.drawImage(interactable.img, xPos, yPos, null);
 					}
 
-					// Draw a normal image
-					else
+					if (targetMap.mapTopLayer[y][x] == 19 && EscapeRoomieGame.showFlower) {
 						g2.drawImage(interactable.img, xPos, yPos, null);
+					}
 				}
+				
+				
 			}
 		}
 	}
