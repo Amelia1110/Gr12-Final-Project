@@ -133,9 +133,8 @@ public class DrawingPanel extends JPanel {
 		if (!EscapeRoomieGame.gameRunning) {
 			g2.setColor(Color.WHITE);
 			
-			
 			// Displays if user beats the game
-			if (Flower.gamePassed = true) {
+			if (Flower.gamePassed) {
 				g2.setFont(midFont);
 				g2.drawString("CONGRATS", 170, 430);
 				g2.setFont(dialogFont);
