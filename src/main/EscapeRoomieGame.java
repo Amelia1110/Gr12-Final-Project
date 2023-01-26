@@ -65,7 +65,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object on tile (8, 5)
-	static Player player = new Player(7*64, 4*64);
+	static Player player = new Player(8*64, 4*64);
 	
 	//checking if shop is showing
 	static boolean shopShowing = false;
@@ -106,8 +106,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		instructionMessage();
 		
 		// Render window
-		window.add(room1Panel);
-		activePanel = room1Panel;
+		window.add(introPanel);
+		activePanel = introPanel;
 		activePanel.addKeyListener(this);
 		window.pack();
 		window.setLocationRelativeTo(null);
@@ -169,9 +169,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				+ "3. Press ‘A’ to move left\n"
 				+ "4. Press ‘D’ to move right\n"
 				+ "5. Press ‘E’ to interact with an item\n"
-				+ "6. Press ‘Q’ to open/close shop\n"
-				+ "7. Press ‘X’ to view this instruction page again\n"
-				+ "8. Left click mouse to move forward/close an interaction",
+				+ "6. Press ‘X’ to view this instruction page again\n"
+				+ "7. Left click mouse to move forward/close an interaction",
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 	// DrawingPanel class
@@ -438,10 +437,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			instructionMessage();
 		}
 		
-		if (e.getKeyChar() == 'q' && Shop.shopShowing) {
+		/*if (e.getKeyChar() == 'q' && Shop.shopShowing) {
 			System.out.println("Hi");
 			Shop.exit();
-		}
+		}*/
 		
 		activePanel.repaint();
 	}
