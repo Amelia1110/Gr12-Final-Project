@@ -33,6 +33,7 @@ public class Door extends Interactable {
 		//if (userSolution.toLowerCase().equals(correctSolution)) unlocked = true;
 	}
 	
+	// TODO restrict so string can't be past certain size
 	void getUserInput(int keyCode, char keyChar) {
 		// Adds to userInput string the user types a number, letter, or space
 		if ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || keyCode == 32) {
@@ -42,6 +43,15 @@ public class Door extends Interactable {
 		// Deletes the last letter typed
 		if (keyCode == 8) userInput = userInput.substring(0, userInput.length() - 1);
 		
-		if (keyCode == 10) typing = false;
+		if (keyCode == 10) {
+			typing = false;
+			checkSolution();
+		}
+	}
+	
+	void checkSolution() {
+		if (userInput.equals(correctSolution)) {
+			unlocked = true;
+		}
 	}
 }
