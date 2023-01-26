@@ -53,9 +53,12 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static Dialog currentScene = Dialog.introScene1;
 	static Question currentPuzzle;
 
-	//panel size is 18 by 12 squares
+	// Panel size is 18 by 12 squares
 	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
 	static final int PANH = 12 * 64;
+	
+	// Player visibility radius 
+	static int radius = 80;
 
 	// Store all textures
 	static ArrayList<Texture> textures = new ArrayList<Texture>();
@@ -103,8 +106,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		instructionMessage();
 		
 		// Render window
-		window.add(shopPanel);
-		activePanel = shopPanel;
+		window.add(room1Panel);
+		activePanel = room1Panel;
 		activePanel.addKeyListener(this);
 		window.pack();
 		window.setLocationRelativeTo(null);
@@ -246,7 +249,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
-			int radius = 80;
 			int x = player.x+player.width/2 - radius;
 			int y = player.y+player.height/2 - radius;
 			// Rectangle inner = new Rectangle(x, y, 200, 200);
@@ -436,7 +438,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			instructionMessage();
 		}
 		
-		if (e.getKeyChar() == 'q' && activePanel.equals(shopPanel)) {
+		if (e.getKeyChar() == 'q' && Shop.shopShowing) {
+			System.out.println("Hi");
 			Shop.exit();
 		}
 		
