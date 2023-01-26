@@ -78,6 +78,7 @@ public class Door extends Interactable {
 		if (userInput.toLowerCase().equals(correctSolution)) {
 			setImageFile("unlockedDoor.png");
 			unlocked = true;
+			EscapeRoomieGame.player.money +=40;
 		}
 		else {
 			EscapeRoomieGame.player.health -= 10;

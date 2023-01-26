@@ -44,8 +44,8 @@ public class Interactable extends Rectangle{
 	static Interactable wallLight = new Interactable("wallLight.png");
 
 	// These are items up to purchase in shop 
-	static Interactable burger = new Interactable("burger.png"); //gives player 40 health points
-	static Interactable milk = new Interactable("milk.png"); //gives player 20 health points
+	static Interactable burger = new Item("burger.png", 40, 80); //gives player 40 health points
+	static Interactable milk = new Item("milk.png", 20, 40); //gives player 20 health points
 	static Interactable flashlight = new Interactable("flashlight.png"); //gives player more map visibilityI
 	static Interactable hint = new Interactable("hint.png"); //gives player an extra hint
 	
