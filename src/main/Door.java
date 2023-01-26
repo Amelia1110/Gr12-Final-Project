@@ -1,7 +1,11 @@
 package main;
 
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 
 public class Door extends Interactable {
@@ -48,9 +52,6 @@ public class Door extends Interactable {
 			EscapeRoomieGame.player.y = targetYCor;
 			EscapeRoomieGame.window.setVisible(true);
 		}
-		
-		// Mark puzzle as solved if user gets correct answer // TODO move this to check after typing something
-		//if (userSolution.toLowerCase().equals(correctSolution)) unlocked = true;
 	}
 	
 	// TODO restrict so string can't be past certain size
@@ -73,6 +74,7 @@ public class Door extends Interactable {
 	
 	void checkSolution() {
 		if (userInput.toLowerCase().equals(correctSolution)) {
+			setImageFile("unlockedDoor.png");
 			unlocked = true;
 		}
 	}
