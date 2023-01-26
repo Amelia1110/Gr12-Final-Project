@@ -71,7 +71,7 @@ public class DrawingPanel extends JPanel {
 
 		// draw shop icon in shop: (large shop image on floor)
 		if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
-			g2.drawImage(Texture.shopIcon.img, 64 * 7, 64 * 4, null);
+			g2.drawImage(Texture.shopImage.img, 64 * 7, 64 * 4, null);
 		}
 
 		// draw interactables

@@ -99,11 +99,15 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		introPanel = new DrawingPanel(Map.introRoom);
 		panels.put("introPanel", introPanel);
 		room1Panel = new DrawingPanel(Map.room1);
-    panels.put("room1Panel", room1Panel);
+		panels.put("room1Panel", room1Panel);
 		room2Panel = new DrawingPanel(Map.room2);
+		panels.put("room2Panel", room2Panel);
 		room3Panel = new DrawingPanel(Map.room3);
+		panels.put("room3Panel", room3Panel);
 		room4Panel = new DrawingPanel(Map.room4);
+		panels.put("room4Panel", room4Panel);
 		room5Panel = new DrawingPanel(Map.room5);
+		panels.put("room5Panel", room5Panel);
 		shopPanel = new DrawingPanel(Map.shopRoom);
 		panels.put("shopPanel", shopPanel);
     
@@ -119,7 +123,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		instructionMessage();
 		
 		// Render window
-		window.add(room1Panel);
+		window.add(introPanel);
 		activePanel = introPanel;
 		activePanel.addKeyListener(this);
 		window.pack();
@@ -173,7 +177,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.flower);    //19
 		
 		interactables.add(Interactable.introNote); //20
-    interactables.add(Interactable.introToRoom1); //21
+		
+		interactables.add(Interactable.introToRoom1); //21
     
 		interactables.add(Interactable.shop); //22
 	}
@@ -187,7 +192,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				+ "6. Press ‘X’ to view this instruction page again\n"
 				+ "7. Left click mouse to move forward/close an interaction",
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
-	}
 	}
 
 	/*
