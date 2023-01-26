@@ -64,8 +64,21 @@ public class Interactable extends Rectangle{
 	// Shop Icon 
 	static Interactable shop = new Shop("shopIcon.png"); 
 	
-	//introduction item
+	// Introduction item
 	static Interactable introNote = new Note("intronote.png", Dialog.introScene1);
 	
-	static Interactable introToRoom1 = new Door("nightshade", 0, "room1Panel", "introPanel", 6 * 64, 7 * 64);
+	// Access unlocking doors
+	static Interactable introToRoom1 = new Door("nightshade", 0, "room1Panel", "introPanel", false, 6 * 64, 7 * 64);
+	static Interactable room1ToRoom2 = new Door("see", 90, "room2Panel", "room1Panel", false, 1 * 64, 8 * 64); 
+	static Interactable room1ToRoom3 = new Door("exams", 0, "room3Panel", "room1Panel", false, 14 * 64, 8 * 64); 
+	static Interactable room1ToRoom4 = new Door("127dbftense", 270, "room4Panel", "room1Panel", false, 15 * 64, 2 * 64);
+	static Interactable room1ToRoom5 = new Door("jortega", 180, "room5Panel", "room1Panel", false, 2 * 64, 1 * 64); 
+	
+	// Free Access doors 
+	static Interactable shopToRoom1 = new Door("", 270, "room1Panel", "shopPanel", true, 10 * 64, 7 * 64);
+	static Interactable room2ToRoom1 = new Door("", 270, "room1Panel", "room2Panel", true, 15 * 64, 6 * 64);
+	static Interactable room3ToRoom1 = new Door("", 180, "room1Panel", "room3Panel", true, 5 * 64, 3 * 64);
+	static Interactable room4ToRoom1 = new Door("", 90, "room1Panel", "room4Panel", true, 6 * 64, 4 * 64);
+	static Interactable room5ToRoom1 = new Door("", 0, "room1Panel", "room5Panel", true, 6 * 64, 6 * 64);
+	
 }
