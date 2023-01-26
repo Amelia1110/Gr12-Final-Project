@@ -45,6 +45,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
+	// True when game is running
+	static boolean gameRunning = true;
+	
 	// JFrame
 	static JFrame window;
 	
@@ -208,7 +211,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 
 		// Move as long as user isn't typing
-		if (!Door.typing && !Question.puzzleShowing) {
+		if (!Door.typing && !Question.puzzleShowing && gameRunning) {
 			//move player (assuming that a key has been pressed)
 			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
 			if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
@@ -270,7 +273,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (!Door.typing) {
+		if (!Door.typing && gameRunning) {
 			int[][]	topMap = activePanel.targetMap.mapTopLayer;
 			
 			if (e.getKeyChar() == 'e') {

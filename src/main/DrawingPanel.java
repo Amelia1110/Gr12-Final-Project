@@ -20,7 +20,7 @@ public class DrawingPanel extends JPanel {
 	// Game font
 	static Font pixeloidSans;
 	
-	Font dialogFont, promptFont, lockFont;
+	Font dialogFont, promptFont, lockFont, gameOverFont;
 
 	Graphics2D g2;
 
@@ -48,6 +48,7 @@ public class DrawingPanel extends JPanel {
 			dialogFont = pixeloidSans.deriveFont(20f);
 			promptFont = pixeloidSans.deriveFont(10f);
 			lockFont = pixeloidSans.deriveFont(100f);
+			gameOverFont = pixeloidSans.deriveFont(250f);
 		} catch (FontFormatException e) {
 			System.out.println("Warning: font failed to load");
 			e.printStackTrace();
@@ -114,6 +115,14 @@ public class DrawingPanel extends JPanel {
 			g2.setColor(Color.WHITE);
 			g2.setFont(lockFont);
 			g2.drawString(EscapeRoomieGame.currentDoor.userInput, 100, EscapeRoomieGame.PANH / 2);
+		}
+		
+		// Draw when user dies
+		if (!EscapeRoomieGame.gameRunning) {
+			g2.setColor(Color.WHITE);
+			g2.setFont(gameOverFont);
+			g2.drawString("GAME", 240, 375);
+			g2.drawString("OVER", 240, 625);
 		}
 	}
 

@@ -79,6 +79,9 @@ public class Door extends Interactable {
 		}
 		else {
 			EscapeRoomieGame.player.health -= 10;
+			if (EscapeRoomieGame.player.health <= 0) {
+				EscapeRoomieGame.gameRunning = false;
+			}
 		}
 	}
 }
