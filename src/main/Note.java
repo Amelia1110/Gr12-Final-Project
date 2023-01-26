@@ -2,7 +2,7 @@ package main;
 
 // For any interactable that triggers a scene of dialog
 public class Note extends Interactable {
-	Dialog scene;
+	Dialog noteDialog;
 	
 	Note() {}
 	
@@ -11,7 +11,7 @@ public class Note extends Interactable {
 		setImageFile(fileName);
 		
 		// Define which dialog object the note triggers
-		this.scene = scene;
+		this.noteDialog = scene;
 	}
 	
 	Note(String fileName, Dialog scene, int rotation) {
@@ -20,13 +20,13 @@ public class Note extends Interactable {
 		super.rotation = rotation;
 		
 		// Define which dialog object the note triggers
-		this.scene = scene;
+		this.noteDialog = scene;
 	}
 	
 	@Override
 	void interact() {
-		scene.currentText = 0;
-		EscapeRoomieGame.currentScene = scene;
+		noteDialog.currentText = 0;
+		EscapeRoomieGame.currentDialog = noteDialog;
 		Dialog.showDialog = true;	
 	}
 }

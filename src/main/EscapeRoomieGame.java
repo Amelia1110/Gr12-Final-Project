@@ -58,7 +58,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	
 	// Keeps track of which panel and what objects are currently being displayed
 	static DrawingPanel activePanel, lastPanel;
-	static Dialog currentScene;
+	static Dialog currentDialog;
 	static Question currentPuzzle;
 	static Door currentDoor;
 
@@ -244,11 +244,11 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			yCor = e.getY();
 			System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
 			
-			if (currentScene != null && Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
-				currentScene.currentText++;
+			if (currentDialog != null && Dialog.showDialog && currentDialog.currentText < currentDialog.sceneDialog.length) {
+				currentDialog.currentText++;
 			}
 			
-			if (currentScene != null && currentScene.currentText == currentScene.sceneDialog.length) {
+			if (currentDialog != null && currentDialog.currentText == currentDialog.sceneDialog.length) {
 				Dialog.showDialog = false;
 			}
       

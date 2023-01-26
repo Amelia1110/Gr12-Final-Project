@@ -116,7 +116,7 @@ public class DrawingPanel extends JPanel {
 		if (Dialog.showDialog) {
 			g2.setColor(Color.WHITE);
 			g2.setFont(dialogFont);
-			g2.drawImage(Dialog.img, EscapeRoomieGame.currentScene.x, EscapeRoomieGame.currentScene.y, null);
+			g2.drawImage(Dialog.img, EscapeRoomieGame.currentDialog.x, EscapeRoomieGame.currentDialog.y, null);
 			drawDialog();
 		}
 
@@ -240,11 +240,11 @@ public class DrawingPanel extends JPanel {
 
 	// Draw dialog
 	void drawDialog() {
-		String current = EscapeRoomieGame.currentScene.sceneDialog[EscapeRoomieGame.currentScene.currentText];
+		String current = EscapeRoomieGame.currentDialog.sceneDialog[EscapeRoomieGame.currentDialog.currentText];
 		String[] dialog = current.split("#", 0);
 
 		for (int i = 0; i < dialog.length; i++) {
-			g2.drawString(dialog[i], EscapeRoomieGame.currentScene.x + 45, EscapeRoomieGame.currentScene.y + 60 + (i * 30));
+			g2.drawString(dialog[i], EscapeRoomieGame.currentDialog.x + 45, EscapeRoomieGame.currentDialog.y + 60 + (i * 30));
 		}
 	}
 }
