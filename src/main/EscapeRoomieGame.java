@@ -65,7 +65,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
 
 	// Create player object on tile (8, 5)
-	static Player player = new Player(8*64, 4*64);
+	static Player player = new Player(9*64, 5*64);
 	
 	//checking if shop is showing
 	static boolean shopShowing = false;
@@ -106,7 +106,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		instructionMessage();
 		
 		// Render window
-		window.add(introPanel);
+		window.add(room1Panel);
 		activePanel = introPanel;
 		activePanel.addKeyListener(this);
 		window.pack();
@@ -244,7 +244,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.setFont(promptFont);
 				g2.drawString("E to Interact", player.x, player.y - 10);
 			}
-			else g2.drawString("Health:" + player.health, player.x - 1, player.y - 10);
 			
 			//draw vision restrictions
 			Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
