@@ -87,7 +87,15 @@ public class DrawingPanel extends JPanel {
 		// if an interaction is possible
 		if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) != 0) {
 			g2.setFont(promptFont);
-			g2.drawString("E to Interact", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
+			if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
+				//g2.drawString("Money Needed: " + Interactable.milk.cost, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 20);
+				g2.drawString("E to Purchase", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
+			} else {
+				g2.drawString("E to Interact", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
+			}
+		}
+		if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
+			g2.drawString("Money: " + EscapeRoomieGame.player.money, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 25);
 		}
 
 		// draw vision restrictions
@@ -108,7 +116,7 @@ public class DrawingPanel extends JPanel {
 			g2.drawImage(Dialog.img, EscapeRoomieGame.currentScene.x, EscapeRoomieGame.currentScene.y, null);
 			drawDialog();
 		}
-		
+
 		// draw puzzle image if the boolean puzzleShowing is set to true
 		if (Question.puzzleShowing) g2.drawImage(EscapeRoomieGame.currentPuzzle.puzzleImage, EscapeRoomieGame.currentPuzzle.x, EscapeRoomieGame.currentPuzzle.y, null); 
 
@@ -117,7 +125,7 @@ public class DrawingPanel extends JPanel {
 			g2.setFont(lockFont);
 			g2.drawString(EscapeRoomieGame.currentDoor.userInput, 100, EscapeRoomieGame.PANH / 2);
 		}
-		
+
 		// Draw when user dies
 		if (!EscapeRoomieGame.gameRunning) {
 			g2.setColor(Color.WHITE);

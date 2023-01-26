@@ -42,7 +42,7 @@ public class Door extends Interactable {
 		if (!unlocked) {
 			// Player is typing input
 			typing = true;
-			userInput = "type...";
+			userInput = "Delete&Type:";
 			System.out.println("Hello");
 			System.out.println(typing);
 		}
@@ -78,9 +78,12 @@ public class Door extends Interactable {
 		if (userInput.toLowerCase().equals(correctSolution)) {
 			setImageFile("unlockedDoor.png");
 			unlocked = true;
+      EscapeRoomieGame.player.money +=40;
+     
 			if (this == Interactable.room1ToRoom5) {
 				EscapeRoomieGame.showFlower = true;
 			}
+
 		}
 		else {
 			EscapeRoomieGame.player.health -= 10;
