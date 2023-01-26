@@ -9,7 +9,10 @@ public class Flower extends Interactable{
 	
 	@Override
 	void interact() {
-		gamePassed = true;
-		EscapeRoomieGame.gameRunning = false;
+		// Interacts only when flower is showing
+		if (EscapeRoomieGame.showFlower) {
+			gamePassed = true;
+			EscapeRoomieGame.gameRunning = false;
+		}
 	}
 }

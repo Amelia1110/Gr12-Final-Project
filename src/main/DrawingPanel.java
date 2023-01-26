@@ -91,7 +91,10 @@ public class DrawingPanel extends JPanel {
 				//g2.drawString("Money Needed: " + Interactable.milk.cost, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 20);
 				g2.drawString("E to Purchase", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
 			} else {
-				g2.drawString("E to Interact", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
+				// Hide prompt when player is standing on flower but flower is not showing
+				if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) == 19 && !EscapeRoomieGame.showFlower) {}
+				// Prompt user to interact
+				else g2.drawString("E to Interact", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
 			}
 		}
 		if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
@@ -134,9 +137,9 @@ public class DrawingPanel extends JPanel {
 			// Displays if user beats the game
 			if (Flower.gamePassed = true) {
 				g2.setFont(midFont);
-				g2.drawString("CONGRATS", 180, 430);
+				g2.drawString("CONGRATS", 170, 430);
 				g2.setFont(dialogFont);
-				g2.drawString("Since you touched the flower, you die anyways :)", 180, 500);
+				g2.drawString("Since you touched the flower, you die anyways :)", 170, 500);
 				
 			}
 			else {
