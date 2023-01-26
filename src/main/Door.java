@@ -42,7 +42,7 @@ public class Door extends Interactable {
 		if (!unlocked) {
 			// Player is typing input
 			typing = true;
-			userInput = "type...";
+			userInput = "Delete&Type:";
 			System.out.println("Hello");
 			System.out.println(typing);
 		}

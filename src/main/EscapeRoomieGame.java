@@ -204,7 +204,8 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				+ "4. Press ‘D’ to move right\n"
 				+ "5. Press ‘E’ to interact with an item\n"
 				+ "6. Press ‘X’ to view this instruction page again\n"
-				+ "7. Left click mouse to move forward/close an interaction",
+				+ "7. Press 'Enter' to submit puzzle answer\n"
+				+ "8. Left click mouse to move forward/close an interaction",
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -216,7 +217,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 
 		// Move as long as user isn't typing
-		if (!Door.typing && !Question.puzzleShowing && gameRunning) {
+		if (!Door.typing && !Question.puzzleShowing && gameRunning && !Dialog.showDialog) {
 			//move player (assuming that a key has been pressed)
 			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
 			if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
@@ -230,7 +231,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
