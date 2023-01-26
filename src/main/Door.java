@@ -20,7 +20,8 @@ public class Door extends Interactable {
 	
 	Door(String correctSolution, int rotation, String panelEntered, String panelExited, boolean unlocked, int xCor, int yCor) {
 		// Interactable method to set image
-		setImageFile("door.png");
+		if (unlocked) setImageFile("unlockedDoor.png");
+		else setImageFile("door.png");
 		this.correctSolution = correctSolution;
 		
 		// Set rotation (to create doors going in different directions)
