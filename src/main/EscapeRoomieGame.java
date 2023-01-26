@@ -48,12 +48,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Panels for all maps
 	static DrawingPanel introPanel, room1Panel, shopPanel;
 	
-	// Where user enters solutions
-	static JTextField doorLock;
-	
 	// Keeps track of which panel is currently being displayed
 	static DrawingPanel activePanel;
 	static Dialog currentScene;
+	static Door currentDoor;
 
 	//panel size is 18 by 12 squares
 	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
@@ -182,9 +180,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 			this.setBackground(Color.BLACK);
 			this.addKeyListener(bKeyL);
 			this.setFocusable(true);
-			
-			// Text field for door/locks
-			doorLock = new JTextField(" Code to Unlock... ");
 
 			// Create Font for dialogs
 			try {
@@ -199,9 +194,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				System.out.println("Warning: font failed to load");
 				e.printStackTrace();
 			}
-			
-			// Set font of text fields
-			doorLock.setFont(lockFont);
 		}
 
 		// Draw components
@@ -255,11 +247,10 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				drawDialog();
 			}
 			
-			// Display solution input
-			if (Door.showTextField) {
-				this.add(doorLock);
-				System.out.println("Hello");
-				Door.showTextField = false;
+			if (Door.typing) {
+				g2.setColor(Color.WHITE);
+				g2.setFont(lockFont);
+				g2.drawString(currentDoor.userInput, 100, PANH/2);
 			}
 		}
 
@@ -349,10 +340,6 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				g2.drawString(dialog[i], currentScene.x + 45, currentScene.y + 60 + (i * 30));
 			}
 		}
-		
-		/*void showTextField() {
-			this.add(doorLock);
-		}*/
 	}
 
 
@@ -362,12 +349,15 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		int[][] groundMap = activePanel.targetMap.mapGround;
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 		
-		//move player (assuming that a key has been pressed)
-		if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
-		if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
-		if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
-		if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
-
+		// Move as long as user isn't typing
+		if (!Door.typing) {
+			//move player (assuming that a key has been pressed)
+			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
+			if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);
+			if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', groundMap, topMap);
+			if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S', groundMap, topMap);
+		}
+		
 		activePanel.repaint();
 	};
 
@@ -380,18 +370,19 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int xCor, yCor;
-    // Get coordinates of click
-		xCor = e.getX();
-		yCor = e.getY();
-		System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
 		
-		if (Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
-			currentScene.currentText++;
-		}
-		
-		if (currentScene.currentText == currentScene.sceneDialog.length) {
-			Dialog.showDialog = false;
-		}
+			// Get coordinates of click
+			xCor = e.getX();
+			yCor = e.getY();
+			System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
+			
+			if (currentScene != null && Dialog.showDialog && currentScene.currentText < currentScene.sceneDialog.length) {
+				currentScene.currentText++;
+			}
+			
+			if (currentScene != null && currentScene.currentText == currentScene.sceneDialog.length) {
+				Dialog.showDialog = false;
+			}
 	}
 
 	@Override
@@ -419,11 +410,17 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int[][]	topMap = activePanel.targetMap.mapTopLayer;
+		if (!Door.typing) {
+			int[][]	topMap = activePanel.targetMap.mapTopLayer;
+			
+			if (e.getKeyChar() == 'e') {
+				Interactable target = interactables.get(player.canInteractWith(topMap));
+				if (target != null) target.interact();
+			}
+		}
 		
-		if (e.getKeyChar() == 'e') {
-			Interactable target = interactables.get(player.canInteractWith(topMap));
-			if (target != null) target.interact();
+		else {
+			currentDoor.getUserInput(e.getKeyCode(), e.getKeyChar());
 		}
 		
 		activePanel.repaint();
