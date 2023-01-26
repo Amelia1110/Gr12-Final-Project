@@ -61,4 +61,17 @@ public class Dialog extends Rectangle {
 			"The answer for the cube is \"127\", enjoy the freebie :)"
 	};
 	static Dialog cubeText = new Dialog(rubikCubeText);
+  
+	// Dialogs for door instructions
+	private static final String[] dialogRoom1To2 = {"Enter the hidden message from the paper nearby"};
+	static Dialog dialog1To2 = new Dialog(dialogRoom1To2);
+	
+	private static final String[] dialogRoom1To3 = {"Enter solution from the book nearby"};
+	static Dialog dialog1To3 = new Dialog(dialogRoom1To3);
+	
+	private static final String[] dialogRoom1To4 = {"Enter solutions of Rubik’s cube, music notes, and clock puzzle in one line"};
+	static Dialog dialog1To4 = new Dialog(dialogRoom1To4);
+	
+	private static final String[] dialogRoom1To5 = {"Find and enter solutions of bracelets, math, and alphabet in one line"};
+	static Dialog dialog1To5 = new Dialog(dialogRoom1To5);
 }
