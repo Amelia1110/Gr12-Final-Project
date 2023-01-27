@@ -11,7 +11,7 @@ class Player extends Rectangle{
 	//player properties
 	static final int MAXHEALTH = 100; 
 	int health = 100;	// Health of player
-	int money = 0; 		// Player will use the money to purchase in-game items 
+	int money = 0; 		// Player will use the money to purchase in-game items
 	private int vx = 2;	// Xspeed at which player moves, horizontally
 	private int vy = 2;	// Yspeed at which player moves, vertically
 	boolean showHitBox = false; //for testing because player is a rectangle 
@@ -84,7 +84,7 @@ class Player extends Rectangle{
 	
 	// Restrict player movement so player can't go past walls
 	boolean hitWall(int[][] map) {
-		// calculate the tile on which player is currently standing (using bottom center of player as reference)
+		// Calculate the tile on which player is currently standing
 		xPosLeft = x/Map.TILE_DIMENSION;
 		xPosRight = (x + width)/Map.TILE_DIMENSION;
 		yPos = (y + height)/Map.TILE_DIMENSION;
