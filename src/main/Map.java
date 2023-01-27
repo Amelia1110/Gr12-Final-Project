@@ -1,7 +1,8 @@
 package main;
 
 public class Map {
-	// There are two layers to a map, ground layer is for basics like walls and floors, top layer is for things drawn above it like interactables
+	// There are two layers to a map, ground layer is for basics like walls and floors, 
+	//top layer is for things drawn above it like interactables
 	final int[][] mapGround; 
 	final int[][] mapTopLayer;
 	final static int TILE_DIMENSION = 64; // Each tile on the map should be 64 pixels, add imported images are 64 pixels
@@ -27,9 +28,6 @@ public class Map {
 	void updateMapLayer2(int x, int y, int value) {
 		mapTopLayer[y][x] = value;
 	}
-	
-	
-	
 	
 	//****** Generate all maps ******//
 	// INTRO MAP, where the player gets the hang of the game

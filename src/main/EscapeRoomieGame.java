@@ -1,18 +1,20 @@
 package main;
 
-//by Amelia Song, Alex You, and Alex Cai
-//January 24, 2023
-//final project, ICS4U
+/*
+By Amelia Song, Alex You, and Alex Cai
+January 24, 2023
+final project, ICS4U
 
-//this is a 2.5-dimension escape room, demonstrating what the three of us have learned throughout the entire course as well as concepts
-//we have learned ourselves from researches in our free time. The purpose of the game is simple, the player has to solve a series of
-//puzzles, riddles, etc to gather enough clues to gain freedom ultimately. The player first begins in an introductory room, where
-//a note lies on the floor. As soon as the user interacts with the note, a storyline pops up for them. Once the user finishes the 
-//introduction, they find themselves in the real game. Some puzzles lead to other puzzles and combining the answers they unlock access
-//to the rest of the rooms, while others -- like the ones in the beginning stages of the game -- are easier and they directly grant
-//user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!  
+this is a 2.5-dimension escape room, demonstrating what the three of us have learned throughout the entire course as well as concepts
+we have learned ourselves from researches in our free time. The purpose of the game is simple, the player has to solve a series of
+puzzles, riddles, etc to gather enough clues to gain freedom ultimately. The player first begins in an introductory room, where
+a note lies on the floor. As soon as the user interacts with the note, a storyline pops up for them. Once the user finishes the 
+introduction, they find themselves in the real game. Some puzzles lead to other puzzles and combining the answers they unlock access
+to the rest of the rooms, while others -- like the ones in the beginning stages of the game -- are easier and they directly grant
+user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!
 
-//FUN FACT: ALL THE GRAPHICS IN THIS GAME, LIKE THE IMAGE OF ITEMS AND FLOORS ETC., WERE ALL DRAWN BY US via PIXELART!
+FUN FACT: ALL THE GRAPHICS IN THIS GAME, THE IMAGE OF ITEMS AND FLOORS ETC., WERE ALL DRAWN BY US via PIXILART!
+*/
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
