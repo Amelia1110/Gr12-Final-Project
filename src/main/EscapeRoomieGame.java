@@ -112,7 +112,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	// Setup window
 	void setupJFrame() {
 		// Set parameters
-		window = new JFrame("Escape Room");
+		window = new JFrame("EscapeRoomie");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		instructionMessage();
 		
@@ -195,7 +195,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				+ "6. Press ‘X’ to view this instruction page again\n"
 				+ "7. Press 'Enter' to submit puzzle answer\n"
 				+ "8. Left click mouse to move forward/close an interaction\n"
-				+ "9. Tip: careful with doors (dark thingies that resemble portals)\n\tThey are places where you enter your answers.\n"
+				+ "9. Tip: careful with doors (dark thingies that resemble portals)\n     They are places where you enter your answers.\n"
 				+ "10. For every wrong answer you enter, you get health points taken off!\n      If you interact with a door and has no answer to give, you will lose health.\n"
 				+ "11. So, there is a shop -- hidden somewhere -- for when you want to buy items to restore health!",
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
