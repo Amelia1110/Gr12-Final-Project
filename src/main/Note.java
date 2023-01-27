@@ -25,6 +25,7 @@ public class Note extends Interactable {
 	
 	@Override
 	void interact() {
+		// Method for when player interacts with an object that has dialogs intended
 		noteDialog.currentText = 0;
 		EscapeRoomieGame.currentDialog = noteDialog;
 		Dialog.showDialog = true;	

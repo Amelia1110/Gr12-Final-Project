@@ -12,11 +12,11 @@ public class Shop extends Interactable{
 	
 	@Override
 	void interact() {
+		// Switches displaying panel to shopPanel when player wishes to access shop
 		shopShowing = true;
 		EscapeRoomieGame.window.add(EscapeRoomieGame.shopPanel);
 		EscapeRoomieGame.window.remove(EscapeRoomieGame.room1Panel);
 		EscapeRoomieGame.activePanel = EscapeRoomieGame.shopPanel;
-		//EscapeRoomieGame.radius = 1000;
 		EscapeRoomieGame.window.setVisible(true);
 	}
 }

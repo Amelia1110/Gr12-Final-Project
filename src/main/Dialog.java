@@ -37,8 +37,6 @@ public class Dialog extends Rectangle {
 		showDialog = toggle;
 	}
 	
-	
-	// INTRO SCENE
 	// Create dialog object for each scene
 	private static final String[] introScene1Text = {
 			"Hello there, you unfortunate little creature.",
@@ -55,6 +53,7 @@ public class Dialog extends Rectangle {
 	};
 	static Dialog introScene1 = new Dialog(introScene1Text);
 	
+	// This dialog is for when the user interacts with the rubik's cube object
 	private static final String[] rubikCubeText = {
 			"Aw look at you! You've come this far already!",
 			"You have certainly exceeded our expectations. Thus, as a reward for you, we have a#treat!",

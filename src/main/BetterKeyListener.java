@@ -3,8 +3,7 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-//Since this is a general class, I'm not going to have it move the player etc.
-//We'll have to use a Timer to check if the keys are pressed.
+// This class makes player movement smoother 
 public class BetterKeyListener implements KeyListener {
 	private boolean keysDown[] = new boolean[256];
 

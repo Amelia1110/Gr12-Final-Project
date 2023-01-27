@@ -12,42 +12,26 @@ package main;
 //to the rest of the rooms, while others -- like the ones in the beginning stages of the game -- are easier and they directly grant
 //user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!  
 
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.Font;
-import java.awt.FontFormatException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListener {
 	// True when game is running
 	static boolean gameRunning = true;
-	// Show flower when last door is unlocked
+	
+	// Show flower when last door is unlocked: meaning once player interacts with flower they win!
 	static boolean showFlower = false;
 	
 	// JFrame
@@ -57,28 +41,25 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	static DrawingPanel introPanel, room1Panel, room2Panel, room3Panel, room4Panel, room5Panel, shopPanel;
 	
 	// Keeps track of which panel and what objects are currently being displayed
-	static DrawingPanel activePanel, lastPanel;
-	static Dialog currentDialog;
+	static DrawingPanel activePanel; // Current Panel
+	static Dialog currentDialog; 
 	static Question currentPuzzle;
 	static Door currentDoor;
 
-	// Panel size is 18 by 12 squares
-	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, lets make these multiples of 64
+	// Panel size is 18 by 12 squares, window width by window height
+	static final int PANW = 18 * 64; //Each image is 64 x 64 pixels, let's make these multiples of 64
 	static final int PANH = 12 * 64;
 	
-	// Player visibility radius 
-	static int radius = 80; // TODO change this back :)
+	// Player visibility radius, the higher it is the more visibility the player has 
+	static int radius = 80; 
 
-	// Store all textures
-	static ArrayList<Texture> textures = new ArrayList<Texture>();
-	static ArrayList<Interactable> interactables = new ArrayList<Interactable>();
-	static HashMap<String, DrawingPanel> panels = new HashMap<String, DrawingPanel>();
+	// Store all objects
+	static ArrayList<Texture> textures = new ArrayList<Texture>(); // This is for things like floor and walls
+	static ArrayList<Interactable> interactables = new ArrayList<Interactable>(); // This is for all the items that the player can interact with throughout the game
+	static HashMap<String, DrawingPanel> panels = new HashMap<String, DrawingPanel>(); 
 
-	// Create player object on tile (8, 5)
+	// Spawn player
 	static Player player = new Player(9*64, 5*64);
-	
-	//checking if shop is showing
-	static boolean shopShowing = false;
   
 	// Game font
 	static Font pixeloidSans;
@@ -94,13 +75,14 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	}
 
 	Timer mainTimer = new Timer(10, this);
-	static BetterKeyListener bKeyL = new BetterKeyListener();
+	static BetterKeyListener bKeyL = new BetterKeyListener(); // For player control and other actions that are key-controlled
 
 	// Constructor, create game
 	EscapeRoomieGame() {
 		addTextures();
-		addInteractables();
+		addInteractables(); 
     
+		// Adding KeyListeners to panels and adding panels to the hashmap for organization
 		introPanel = new DrawingPanel(Map.introRoom);
 		introPanel.addKeyListener(this);
 		panels.put("introPanel", introPanel);
@@ -145,6 +127,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	
 	// Declare all textures
 	void addTextures() { 
+		// These numbers are used when initializing maps 
 		textures.add(null);	//0
 		textures.add(Texture.floor);		//1
 		textures.add(Texture.leftWall);		//2
@@ -164,6 +147,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 
 	// Declare all interactables
 	void addInteractables() {
+		// These numbers are used when initializing maps 
 		interactables.add(null);	//0
 		interactables.add(Interactable.room1ToRoom2);//1
 		interactables.add(Interactable.room1ToRoom3);//2
@@ -199,6 +183,9 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		interactables.add(Interactable.shop); //26
 	}
 
+	// Informing the user of how to navigate through the game 
+	// NOTE: because of the differences in characters between mac and windows and we are working via mac, windows might not be 
+	// 		 able to read some characters! In case that happens, the missing letters are: W, S, A, D, E, and X
 	void instructionMessage() {
 		JOptionPane.showMessageDialog(null, "1. Press ‘W’ to move up\n"
 				+ "2. Press ‘S’ to move down\n"
@@ -207,18 +194,20 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 				+ "5. Press ‘E’ to interact with an item\n"
 				+ "6. Press ‘X’ to view this instruction page again\n"
 				+ "7. Press 'Enter' to submit puzzle answer\n"
-				+ "8. Left click mouse to move forward/close an interaction",
+				+ "8. Left click mouse to move forward/close an interaction\n"
+				+ "9. Tip: careful with doors (dark thingies that resemble portals), they are places where you enter your answers.\n"
+				+ "10. For every wrong answer you enter, you get health points taken off!\n      If you interact with a door and has no answer to give, you will lose health.\n"
+				+ "11. So, there is a shop -- hidden somewhere -- for when you want to buy items to restore health!",
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
-
 
 	/*** for mainTimer ***/
 	@Override
 	public void actionPerformed(ActionEvent e) {	
-		int[][] groundMap = activePanel.targetMap.mapGround;
+		int[][] groundMap = activePanel.targetMap.mapGround; 
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 
-		// Move as long as user isn't typing
+		// Move as long as user isn't in the process of an action that shouldn't be interrupted
 		if (!Door.typing && !Question.puzzleShowing && gameRunning && !Dialog.showDialog) {
 			//move player (assuming that a key has been pressed)
 			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
@@ -231,73 +220,56 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	};
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int xCor, yCor;
-		
-			// Get coordinates of click
-			xCor = e.getX();
-			yCor = e.getY();
-			System.out.println(xCor + ", " + yCor + "\n"); //TODO Remove
-			
+			// Updates sentences in dialogs when user clicks the mouse
 			if (currentDialog != null && Dialog.showDialog && currentDialog.currentText < currentDialog.sceneDialog.length) {
 				currentDialog.currentText++;
 			}
-			
 			if (currentDialog != null && currentDialog.currentText == currentDialog.sceneDialog.length) {
 				Dialog.showDialog = false;
 			}
       
+			// Closes puzzles when user wishes to, by clicking the mouse
 			if (Question.puzzleShowing) Question.puzzleShowing = false;
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// Making sure an action can be performed
 		if (!Door.typing && gameRunning) {
 			int[][]	topMap = activePanel.targetMap.mapTopLayer;
 			
+			// Player interacts with an interactable when 'e' is pressed
 			if (e.getKeyChar() == 'e') {
 				Interactable target = interactables.get(player.canInteractWith(topMap));
-				System.out.println(target);
-				
+				 // Only shows interaction results if player is interacting an interactable objects
 				if (target != null) {
-					System.out.println("interact");
-					target.interact(); // only shows interaction results if player is interacting an interactable objects
+					target.interact();
 				}
 			}
       
+			// Allows players to see the instruction message again when they press 'x'
 			if (e.getKeyChar() == 'x') {
 			  instructionMessage();
 			}
 		}
 		
+		// When user is entering solution at a door, it reads their input
 		else {
 			currentDoor.getUserInput(e.getKeyCode(), e.getKeyChar());
 		}
@@ -306,8 +278,5 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e) {}
 }

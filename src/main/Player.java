@@ -10,31 +10,29 @@ import javax.imageio.ImageIO;
 class Player extends Rectangle{
 	//player properties
 	static final int MAXHEALTH = 100; 
-	int health = 100;	//health of player
-	int money = 0; 		//player will use the money to purchase in-game items 
-	private int vx = 2;	//xspeed at which player moves
-	private int vy = 2;	//yspeed at which player moves
+	int health = 100;	// Health of player
+	int money = 0; 		// Player will use the money to purchase in-game items 
+	private int vx = 2;	// Xspeed at which player moves, horizontally
+	private int vy = 2;	// Yspeed at which player moves, vertically
 	boolean showHitBox = false; //for testing because player is a rectangle 
 	// Player's position on the map grid (not pixels), index on map
 	int xPos, xPosLeft, xPosRight;
 	int yPos;
 
-	BufferedImage image; //for drawing the image on graphics 
-
-	int stretch = 20;
+	BufferedImage image; // For drawing the image on graphics 
 
 	Player(int x, int y) {
+		// These are customizable 
 		width = 100;
 		height = 50;
 		xPos = (x + width/2)/Map.TILE_DIMENSION;
 		yPos = (y + height)/Map.TILE_DIMENSION;
 		this.x = x-(width/2);
 		this.y = y-(height/2);
-		//these are customizable 
+		
 
 		try {
 			image = ImageIO.read(new File("player.png"));
-			//these for hitbox
 			width = image.getWidth();
 			height = image.getHeight();
 		} catch (IOException e) {
@@ -104,26 +102,4 @@ class Player extends Rectangle{
 		
 		return map[yPos][xPos];
 	}
-
-	//THIS FOR ITEMS
-	//basically, this class is for all power-ups 
-	//there will be a method called PurchaseItems in main game 
-	//public class Items {
-	//int moneyRequired = 500;
-	//	
-	//}
-
-	/*public class FlashLight{
-		int moneyRequired = 500;
-	}*/
-
-	/*public class Snacks{
-		int moneyRequired = 2000;
-		int healthPoint = 25;
-	}*/
-
-	/*public class illegalFood{
-		int moneyRequired = 4200;
-		int healthPoint = 50;
-	}*/
 }

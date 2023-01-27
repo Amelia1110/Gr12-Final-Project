@@ -1,13 +1,5 @@
 package main;
 
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.JTextField;
-
 public class Door extends Interactable {
 	// Tracks if user is currently typing
 	static boolean typing = false;
@@ -90,7 +82,6 @@ public class Door extends Interactable {
 		}
 	}
 	
-	// TODO restrict so string can't be past certain size
 	void getUserInput(int keyCode, char keyChar) {
 		// Adds to userInput string the user types a number or letter
 		if (userInput.length() <= 11) {
@@ -109,17 +100,20 @@ public class Door extends Interactable {
 		}
 	}
 	
+	// Checks if user solution is correct
 	void checkSolution() {
 		if (userInput.toLowerCase().equals(correctSolution)) {
 			setImageFile("unlockedDoor.png");
-			unlocked = true;
-			EscapeRoomieGame.player.money +=40;
+			unlocked = true; // Unlocks the door to other map if answer is correct
+			EscapeRoomieGame.player.money +=40; // Player receives money for each correct answer
      
+			// Once user unlocks the final locked door, display flower
 			if (this == Interactable.room1ToRoom5) {
 				EscapeRoomieGame.showFlower = true;
 			}
 
 		}
+		// For every wrong input, player loses 10 health points. When it is 0 they die. 
 		else {
 			EscapeRoomieGame.player.health -= 10;
 			if (EscapeRoomieGame.player.health <= 0) {

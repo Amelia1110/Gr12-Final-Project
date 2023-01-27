@@ -1,7 +1,8 @@
 package main;
 
 public class Map {
-	final int[][] mapGround;
+	// There are two layers to a map, ground layer is for basics like walls and floors, top layer is for things drawn above it like interactables
+	final int[][] mapGround; 
 	final int[][] mapTopLayer;
 	final static int TILE_DIMENSION = 64; // Each tile on the map should be 64 pixels, add imported images are 64 pixels
 	
@@ -207,7 +208,7 @@ public class Map {
 								 {2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3},
 								 {2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3},
 								 {2, 1, 1, 10, 5, 5, 11, 1, 1, 10, 11, 1, 1, 10, 11, 1, 1, 3},
-								 {2, 1, 1, 3, 0, 0, 2,  1,  1, 3, 2, 1, 1, 3, 2, 1, 1, 3},
+								 {2, 1, 1, 3, 0, 0, 2, 1, 1, 3, 2, 1, 1, 3, 2, 1, 1, 3},
 								 //5
 								 {2, 1, 1, 3, 0, 0, 2, 1, 1, 3, 2, 1, 1, 3, 2, 1, 1, 3},
 								 {2, 1, 1, 3, 0, 0, 2, 1, 1, 3, 2, 1, 1, 3, 2, 1, 1, 3},

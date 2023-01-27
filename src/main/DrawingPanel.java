@@ -17,17 +17,16 @@ import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
 	// Fonts
-	// Game font
-	static Font pixeloidSans;
+	static Font pixeloidSans; // Main game font
 	
-	Font dialogFont, promptFont, lockFont, midFont, hugeFont;
+	Font dialogFont, promptFont, lockFont, midFont, hugeFont; // Other fonts throughout the game
 
 	Graphics2D g2;
 
 	// Target map
 	final Map targetMap;
 
-	// inaccessible
+	// Inaccessible
 	private DrawingPanel() {
 		// cannot create drawing panel without a map
 		targetMap = null;
@@ -65,31 +64,32 @@ public class DrawingPanel extends JPanel {
 		super.paintComponent(g); // draw background
 		// Setup graphics component
 		g2 = (Graphics2D) g;
-		// antialiasing:
+		// Anti aliasing:
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// draw map
+		// Draw map
 		loadMap();
 
-		// draw shop icon in shop: (large shop image on floor)
+		// Draw shop icon in shop: (large shop image on floor)
 		if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
 			g2.drawImage(Texture.shopImage.img, 64 * 7, 64 * 4, null);
 		}
 
-		// draw interactables
+		// Draw interactables
 		loadInteractables();
 
-		// draw player
+		// Draw player
 		loadPlayer();
 
 		g2.setColor(Color.WHITE);
 
-		// if an interaction is possible
+		// If an interaction is possible
 		if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) != 0) {
 			g2.setFont(promptFont);
+			// Sadly, shop is not set up yet TODO
 			if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
 				//g2.drawString("Money Needed: " + Interactable.milk.cost, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 20);
-				g2.drawString("E to Purchase", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
+				//g2.drawString("E to Purchase", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
 			} else {
 				// Hide prompt when player is standing on flower but flower is not showing
 				if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) == 19 && !EscapeRoomieGame.showFlower) {}
@@ -101,18 +101,17 @@ public class DrawingPanel extends JPanel {
 			g2.drawString("Money: " + EscapeRoomieGame.player.money, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 25);
 		}
 
-		// draw vision restrictions
+		// Draw vision restrictions
 		Area outer = new Area(new Rectangle(0, 0, getWidth(), getHeight()));
 		int x = EscapeRoomieGame.player.x + EscapeRoomieGame.player.width / 2 - EscapeRoomieGame.radius;
 		int y = EscapeRoomieGame.player.y + EscapeRoomieGame.player.height / 2 - EscapeRoomieGame.radius;
-		// Rectangle inner = new Rectangle(x, y, 200, 200);
 		Ellipse2D.Double inner = new Ellipse2D.Double(x, y, 2 * EscapeRoomieGame.radius, 2 * EscapeRoomieGame.radius);
 		outer.subtract(new Area(inner));
 
 		g2.setColor(Color.BLACK);
 		g2.fill(outer);
 
-		// draw dialog if there dialog is set to on
+		// Draw dialog if there dialog is set to on
 		if (Dialog.showDialog) {
 			g2.setColor(Color.WHITE);
 			g2.setFont(dialogFont);
@@ -120,9 +119,10 @@ public class DrawingPanel extends JPanel {
 			drawDialog();
 		}
 
-		// draw puzzle image if the boolean puzzleShowing is set to true
+		// Draw puzzle image if the boolean puzzleShowing is set to true
 		if (Question.puzzleShowing) g2.drawImage(EscapeRoomieGame.currentPuzzle.puzzleImage, EscapeRoomieGame.currentPuzzle.x, EscapeRoomieGame.currentPuzzle.y, null); 
 
+		// Shows user's input at doors 
 		if (Door.typing) {
 			g2.setColor(Color.WHITE);
 			g2.setFont(lockFont);
@@ -141,6 +141,7 @@ public class DrawingPanel extends JPanel {
 				g2.drawString("Since you touched the flower, you die anyways :)", 170, 500);
 				
 			}
+			// Displays if user loses the game
 			else {
 				g2.setFont(hugeFont);
 				g2.drawString("GAME", 240, 375);
@@ -181,8 +182,10 @@ public class DrawingPanel extends JPanel {
 			}
 		}
 	}
-
+	
+	// Load items with interaction abilities
 	void loadInteractables() {
+		// Position, x and y coordinate
 		int xPos;
 		int yPos;
 
@@ -209,32 +212,27 @@ public class DrawingPanel extends JPanel {
 									yPos + interactable.height / 2);
 
 						}
-
 						// Draw a normal image
 						else g2.drawImage(interactable.img, xPos, yPos, null);
 					}
 
+					// Draws flower when the boolean is true
 					if (targetMap.mapTopLayer[y][x] == 19 && EscapeRoomieGame.showFlower) {
 						g2.drawImage(interactable.img, xPos, yPos, null);
 					}
 				}
-				
-				
 			}
 		}
 	}
 
 	// Draw player
 	void loadPlayer() {
-		g2.setColor(Color.RED); // color of hitbox
+		g2.setColor(Color.RED); // Color of player health bar when health is low
 		g2.drawImage(EscapeRoomieGame.player.image, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y, null);
+		// Color of player health bar when health is high, above 50
 		if (EscapeRoomieGame.player.health > 50)
 			g2.setColor(Color.GREEN);
 		g2.fillRect(EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 5, EscapeRoomieGame.player.health * EscapeRoomieGame.player.width / 100, 3);
-
-		if (EscapeRoomieGame.player.showHitBox) {
-			g2.drawRect(EscapeRoomieGame.player.x, EscapeRoomieGame.player.y, EscapeRoomieGame.player.width, EscapeRoomieGame.player.height);
-		}
 	}
 
 	// Draw dialog

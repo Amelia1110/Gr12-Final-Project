@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Interactable extends Rectangle{
 	BufferedImage img;
-	double rotation;
+	double rotation; // If image needs to be rotated by a certain degree
 	
 	// Cannot create an interactable from other classes
 	Interactable() {}
@@ -32,7 +32,7 @@ public class Interactable extends Rectangle{
 	}
 	
 	void interact() {
-		
+		// This will be called when user presses E key on an interactable
 	}
 
 	static Interactable wallLight = new Interactable("wallLight.png");
