@@ -12,6 +12,8 @@ package main;
 //to the rest of the rooms, while others -- like the ones in the beginning stages of the game -- are easier and they directly grant
 //user access to more rooms once solved. The game gets progressively harder -- gaining your freedom is not an easy task!  
 
+//FUN FACT: ALL THE GRAPHICS IN THIS GAME, LIKE THE IMAGE OF ITEMS AND FLOORS ETC., WERE ALL DRAWN BY US via PIXELART!
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
