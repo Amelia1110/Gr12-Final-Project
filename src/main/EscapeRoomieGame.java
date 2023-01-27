@@ -208,7 +208,7 @@ public class EscapeRoomieGame implements ActionListener, MouseListener, KeyListe
 		int[][]	topMap = activePanel.targetMap.mapTopLayer;
 
 		// Move as long as user isn't in the process of an action that shouldn't be interrupted
-		if (!Door.typing && !Question.puzzleShowing && gameRunning && !Dialog.showDialog) {
+		if (!Door.typing && !Question.puzzleShowing && gameRunning && !Dialog.showDialog && !Item.duringPurchase) {
 			//move player (assuming that a key has been pressed)
 			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', groundMap, topMap);
 			if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', groundMap, topMap);

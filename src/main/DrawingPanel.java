@@ -86,19 +86,10 @@ public class DrawingPanel extends JPanel {
 		// If an interaction is possible
 		if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) != 0) {
 			g2.setFont(promptFont);
-			// Sadly, shop is not set up yet TODO
-			if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
-				//g2.drawString("Money Needed: " + Interactable.milk.cost, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 20);
-				//g2.drawString("E to Purchase", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
-			} else {
-				// Hide prompt when player is standing on flower but flower is not showing
-				if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) == 19 && !EscapeRoomieGame.showFlower) {}
-				// Prompt user to interact
-				else g2.drawString("E to Interact", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
-			}
-		}
-		if (EscapeRoomieGame.activePanel.equals(EscapeRoomieGame.shopPanel)) {
-			g2.drawString("Money: " + EscapeRoomieGame.player.money, EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 25);
+			// Hide prompt when player is standing on flower but flower is not showing
+			if (EscapeRoomieGame.player.canInteractWith(targetMap.mapTopLayer) == 19 && !EscapeRoomieGame.showFlower) {}
+			// Prompt user to interact
+			else g2.drawString("E to Interact", EscapeRoomieGame.player.x, EscapeRoomieGame.player.y - 10);
 		}
 
 		// Draw vision restrictions
